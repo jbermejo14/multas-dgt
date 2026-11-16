@@ -59,7 +59,7 @@ export function SpeedCalculator({ initialLimit = 120 }: SpeedCalculatorProps) {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#ff6b00]/10 text-[#ff6b00] dark:bg-[#ff6b00]/20 mb-2">
               <Gauge className="w-3.5 h-3.5" />
-              Baremo Oficial DGT 2026
+              Baremo Ley de Seguridad Vial (RDL 6/2015)
             </div>
             <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
               Calculadora de Multas por Velocidad

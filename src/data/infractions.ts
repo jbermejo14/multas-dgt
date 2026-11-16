@@ -13,10 +13,12 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     gravedad: "Grave",
     permiteProntoPago: true,
     resumen: "Sujetar el teléfono móvil con la mano mientras se conduce, incluso en detenciones de semáforo o atascos.",
-    descripcion: "Desde la reforma de la Ley de Tráfico de 2022, la simple acción de sujetar el teléfono móvil con la mano mientras se conduce (o mientras el vehículo está detenido en un semáforo o stop) está tipificada como infracción grave y sancionada con la retirada de 6 puntos del carnet y 200 € de multa.",
-    baseLegal: "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial, Art. 76.g y Anexo II.",
-    plazoRecuperacion: "2 años continuados sin cometer infracciones graves para restablecer el saldo de puntos inicial (hasta 12 puntos).",
-    comoRecurrir: "A través del pliego de descargos en los primeros 20 días naturales ante la DGT, solicitando prueba fotográfica fehaciente o ratificación detallada del agente si no hubo toma fotográfica.",
+    descripcion: "Desde la reforma de la Ley de Tráfico (Ley 18/2021), la simple acción de sujetar el teléfono móvil con la mano mientras se conduce (o mientras el vehículo está detenido en un semáforo o stop) está tipificada como infracción grave y sancionada con la retirada de 6 puntos del carnet y 200 € de multa.",
+    baseLegal: "Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial (RDL 6/2015, Art. 76.g y Anexo II apartado 8).",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
+    plazoRecuperacion: "2 años continuados sin cometer infracciones graves para restablecer el saldo de puntos inicial.",
+    comoRecurrir: "A través del pliego de alegaciones en los primeros 20 días naturales ante la DGT, solicitando prueba fotográfica o ratificación motivada del agente denunciante.",
     consejos: [
       "Utiliza siempre soportes homologados adheridos al salpicadero, nunca al cristal impidiendo la visión.",
       "No toques la pantalla ni manipules el móvil en detenciones temporales de tráfico o semáforos rojos.",
@@ -25,11 +27,11 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     faq: [
       {
         pregunta: "¿Me pueden multar si estoy parado en un semáforo rojo con el móvil en la mano?",
-        respuesta: "Sí. El vehículo sigue en situación de conducción y circulación, por lo que la sanción de 200 € y 6 puntos aplica con la misma validez."
+        respuesta: "Sí. El vehículo sigue en situación de conducción y circulación, por lo que la sanción de 200 € y 6 puntos aplica con total validez jurídica."
       },
       {
         pregunta: "¿Puedo usar el móvil con soporte homologado?",
-        respuesta: "Sí, siempre que no se manipule en marcha. Manipularlo en el soporte en marcha acarrea 200 € y 3 puntos."
+        respuesta: "Sí, siempre que no se manipule en marcha. Manipularlo en el soporte en marcha acarrea 200 € y 3 puntos según el Anexo II apartado 20."
       }
     ]
   },
@@ -46,7 +48,9 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "No hacer uso del cinturón de seguridad, casco o sistemas de retención infantil obligatorios.",
     descripcion: "No utilizar el cinturón de seguridad, sistema de retención infantil (sillita obligatoria para menores de estatura igual o menor a 135 cm) o el casco de protección en motocicletas o ciclomotores supone la retirada directa de 4 puntos y 200 €.",
-    baseLegal: "Ley sobre Tráfico y Seguridad Vial (Art. 76.h y Anexo II).",
+    baseLegal: "Ley sobre Tráfico y Seguridad Vial (RDL 6/2015, Art. 76.h y Anexo II apartado 4 modificado por Ley 18/2021).",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "2 años sin cometer infracciones graves.",
     comoRecurrir: "Presentar informe médico de exención oficial si se posee, o impugnar falta de nitidez en la imagen del radar de cabina/cámara de vigilancia.",
     consejos: [
@@ -73,12 +77,14 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "Superar la tasa de alcoholemia reglamentaria general (0,25 mg/l en aire o 0,50 g/l en sangre) hasta 0,50 mg/l.",
     descripcion: "La conducción con tasa de alcohol superior a 0,25 mg/l y hasta 0,50 mg/l en aire espirado (o entre 0,15 y 0,30 mg/l en noveles y profesionales) es una infracción muy grave castigada con 500 € y la detracción de 4 puntos.",
-    baseLegal: "Art. 77.c Ley de Seguridad Vial y Art. 20 Reglamento General de Circulación.",
+    baseLegal: "RDL 6/2015 Art. 77.c, Art. 80.2.a y Anexo II apartado 1.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "2 años sin nuevas infracciones graves o muy graves para recuperar los puntos.",
-    comoRecurrir: "Comprobar el margen de error del etilómetro (7,5% en aparatos evidenciales), certificado de calibración en vigor del Centro Español de Metrología y respeto del tiempo de espera entre las dos pruebas reglamentarias.",
+    comoRecurrir: "Comprobar el margen de error del etilómetro (7,5% en aparatos evidenciales según Orden ICT/155/2020), certificado de calibración en vigor del Centro Español de Metrología y respeto del tiempo de espera de al menos 10 minutos entre pruebas.",
     consejos: [
       "La única tasa verdaderamente segura al volante es 0,0 g/l.",
-      "Recuerda que en conductores menores de 18 años (ciclomotores, patinetes, etc.) la tasa legal es estrictamente 0,0."
+      "En conductores menores de 18 años (ciclomotores, patinetes VMP) la tasa legal es estrictamente 0,0."
     ],
     faq: [
       {
@@ -99,8 +105,10 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     gravedad: "Muy Grave",
     permiteProntoPago: true,
     resumen: "Superar los 0,50 mg/l en aire espirado (0,30 mg/l noveles/profesionales) o reincidir en menos de un año.",
-    descripcion: "Multa de 1.000 € y 6 puntos. Si además la tasa supera los 0,60 mg/l en aire (o 1,2 g/l en sangre), pasa de sanción administrativa a delito penal flagrante según el Art. 379.2 del Código Penal, acarreando penas de prisión o trabajos comunitarios y retirada judicial del permiso de 1 a 4 años.",
-    baseLegal: "Art. 77.c Ley de Tráfico y Art. 379.2 Código Penal.",
+    descripcion: "Multa administrativa de 1.000 € y 6 puntos. Si además la tasa supera los 0,60 mg/l en aire (o 1,2 g/l en sangre), pasa de infracción administrativa a delito penal tipificado en el Art. 379.2 del Código Penal, acarreando penas de prisión de 3 a 6 meses, multa o trabajos comunitarios y retirada judicial del carnet de 1 a 4 años.",
+    baseLegal: "RDL 6/2015 Art. 77.c, Art. 80.2.a, Anexo II ap. 1 y Código Penal Art. 379.2.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "Cursos de sensibilización y reeducación vial, y 2 años sin infracciones graves.",
     comoRecurrir: "Verificación de los márgenes metrológicos y de la cadena de custodia de la prueba.",
     consejos: [
@@ -109,7 +117,7 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     faq: [
       {
         pregunta: "¿A partir de qué tasa de alcohol es delito penal?",
-        respuesta: "A partir de 0,60 mg/l en aire espirado (o 1,2 g/l en sangre) se abren diligencias penales por delito contra la seguridad vial con juicio rápido."
+        respuesta: "A partir de 0,60 mg/l en aire espirado (o 1,2 g/l en sangre) se incoan diligencias penales por delito contra la seguridad vial con juicio rápido."
       }
     ]
   },
@@ -125,8 +133,10 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     gravedad: "Muy Grave",
     permiteProntoPago: true,
     resumen: "Dar positivo en drogas (THC, cocaína, anfetaminas, etc.) en control de saliva (DrugTest).",
-    descripcion: "La conducción con presencia de drogas en el organismo está tipificada como infracción muy grave sancionada con 1.000 € de multa y retirada de 6 puntos. Quedan excluidas las sustancias administradas bajo prescripción facultativa con fines terapéuticos siempre que no alteren las facultades psicofísicas.",
-    baseLegal: "Art. 77.c de la Ley de Seguridad Vial.",
+    descripcion: "La conducción con presencia de drogas en el organismo está tipificada como infracción muy grave sancionada con 1.000 € de multa y retirada de 6 puntos. Quedan excluidas las sustancias administradas bajo prescripción médica con fines terapéuticos siempre que no alteren la capacidad de conducción.",
+    baseLegal: "RDL 6/2015 Art. 77.c, Art. 80.2.b y Anexo II apartado 2.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "2 años sin infracciones graves o muy graves.",
     comoRecurrir: "Solicitar análisis toxicológico de contraste en laboratorio toxicológico forense homologado y verificar la cadena de custodia de las muestras salivales.",
     consejos: [
@@ -152,7 +162,9 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "Circular con el vehículo habiendo superado la fecha límite indicada en la ficha técnica y pegatina.",
     descripcion: "Circular con la inspección técnica periódica vencida supone una sanción económica de 200 € (100 € pronto pago). No conlleva retirada de puntos del carnet. Recuerda que no existe 'periodo de gracia' una vez cumplida la fecha.",
-    baseLegal: "Art. 76.o de la Ley sobre Tráfico y Real Decreto 920/2017 de Inspección Técnica.",
+    baseLegal: "RDL 6/2015 Art. 76.o y Real Decreto 920/2017 de Inspección Técnica de Vehículos.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2017-12841",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "No retira puntos.",
     comoRecurrir: "Acreditar cita previa solicitada con anterioridad a la fecha de caducidad si la estación no disponía de hueco, o baja temporal del vehículo.",
     consejos: [
@@ -177,8 +189,10 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     gravedad: "Muy Grave",
     permiteProntoPago: true,
     resumen: "Circular tras un resultado desfavorable fuera del traslado al taller, o con ITV negativa.",
-    descripcion: "Con ITV desfavorable sólo se autoriza circular para trasladar el vehículo al taller o a la estación ITV (plazo máx. 2 meses; si se circula con normalidad la multa es de 200 €). Con ITV negativa el vehículo queda inmovilizado y solo puede trasladarse en grúa; circular con ella acarrea 500 € sin reducción.",
-    baseLegal: "Reglamento General de Vehículos y Ley de Seguridad Vial.",
+    descripcion: "Con ITV desfavorable sólo se autoriza circular para trasladar el vehículo al taller o a la estación ITV (plazo máx. 2 meses; circular con normalidad se sanciona con 200 €). Con ITV negativa el vehículo queda inmovilizado y solo puede trasladarse en grúa; circular con ella acarrea 500 € según el Art. 77.ll de la Ley de Seguridad Vial.",
+    baseLegal: "RDL 6/2015 Art. 76.o y Art. 77.ll; Real Decreto 920/2017 Art. 11.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2017-12841",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "No retira puntos.",
     comoRecurrir: "Aportar factura de taller o resguardo de traslado inmediato a subsanación.",
     consejos: [
@@ -204,7 +218,9 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "Carecer del seguro obligatorio del automóvil o circular sin póliza vigente.",
     descripcion: "Todo vehículo a motor debe contar con póliza de seguro de responsabilidad civil en vigor. La sanción oscila entre 601 € y 3.005 € en función del tipo de vehículo y si estaba circulando (1.500 € para turismos en marcha). Además conlleva la inmovilización y depósito del vehículo en el retén municipal.",
-    baseLegal: "Texto Refundido de la Ley sobre Responsabilidad Civil y Seguro en la Circulación.",
+    baseLegal: "Texto Refundido de la Ley sobre Responsabilidad Civil y Seguro en la Circulación (RDL 8/2004, Art. 2 y 3).",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2004-18910",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "No retira puntos.",
     comoRecurrir: "Presentar certificado de la aseguradora que demuestre póliza en vigor a fecha del hecho o error en el FIVA (Fichero Informativo de Vehículos Asegurados).",
     consejos: [
@@ -230,7 +246,9 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "Llevar instalado o en el vehículo un detector de radares o cinemómetros.",
     descripcion: "La Ley de Seguridad Vial sanciona no solo el uso, sino la mera presencia ('llevar en el vehículo') de mecanismos o instrumentos que detecten la proximidad de cinemómetros o radares. Sanción de 500 € y pérdida de 3 puntos. Nota: los avisadores GPS con base de datos pública son 100% legales.",
-    baseLegal: "Art. 76.f de la Ley de Seguridad Vial.",
+    baseLegal: "RDL 6/2015 Art. 76.f y Anexo II apartado 6 (Ley 18/2021).",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "2 años sin infracciones graves.",
     comoRecurrir: "Acreditar que el aparato es un avisador GPS legal basado en bases de datos y no un receptor de ondas de radar.",
     consejos: [
@@ -250,22 +268,24 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     categoria: "Dispositivos no autorizados",
     articulo: "Art. 77.h LSV",
     importe: 6000,
-    prontoPago: 3000,
+    prontoPago: 6000,
     puntos: 6,
     gravedad: "Muy Grave",
     permiteProntoPago: false,
     resumen: "Instalar o conducir vehículos con mecanismos activos para inhibir o anular radares.",
-    descripcion: "El uso de inhibidores de radares o cualquier mecanismo destinado a interferir con los sistemas de vigilancia de tráfico constituye infracción muy grave con multa de 6.000 € y 6 puntos al conductor. Para los talleres mecánicos que los instalen, la sanción llega hasta 30.000 €.",
-    baseLegal: "Art. 77.h y Art. 80.1 Ley sobre Tráfico.",
-    plazoRecuperacion: "2 años y cursos de recuperación.",
+    descripcion: "El uso de inhibidores de radares o cualquier mecanismo destinado a interferir con los sistemas de vigilancia de tráfico constituye infracción muy grave con multa de 6.000 € y 6 puntos al conductor. Por imperativo del Art. 93.2 LSV, esta infracción no admite reducción por pronto pago. Para talleres instaladores la sanción oscila entre 3.000 € y 20.000 € (Art. 80.2.g).",
+    baseLegal: "RDL 6/2015 Art. 77.h, Art. 80.2.g, Art. 93.2 y Anexo II apartado 5.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
+    plazoRecuperacion: "2 años y cursos de recuperación de puntos.",
     comoRecurrir: "Peritaje técnico que demuestre que el dispositivo instalado no emite frecuencias interferentes.",
     consejos: [
       "Evita modificaciones electrónicas no homologadas."
     ],
     faq: [
       {
-        pregunta: "¿Por qué la multa es tan elevada?",
-        respuesta: "Porque atenta deliberadamente contra los sistemas de control y seguridad del Estado alterando mediciones metrológicas."
+        pregunta: "¿Por qué no tiene reducción por pronto pago?",
+        respuesta: "El artículo 93.2 de la Ley de Seguridad Vial excluye expresamente del procedimiento abreviado (50% de descuento) las sanciones relativas a inhibidores de radar y no identificación del conductor."
       }
     ]
   },
@@ -282,7 +302,9 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "Rebasar la línea de detención con fase de luz roja fija de un semáforo.",
     descripcion: "No detenerse ante una luz roja de semáforo es una infracción grave sancionada con 200 € (100 € en pronto pago) y la pérdida de 4 puntos del permiso. En sistemas 'foto-rojo', deben captarse al menos dos fotografías (antes de rebasar y tras haberlo rebasado) para ser válida.",
-    baseLegal: "Art. 76.l Ley de Tráfico y Art. 146 Reglamento General de Circulación.",
+    baseLegal: "RDL 6/2015 Art. 76.l, Anexo II apartado 14 y Art. 146 RGC.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "2 años sin infracciones graves.",
     comoRecurrir: "Comprobar la secuencia fotográfica de los sistemas foto-rojo, tiempo reglamentario de la fase ámbar (mínimo 3 segundos) y certificado metrológico.",
     consejos: [
@@ -309,7 +331,9 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "No detener por completo el vehículo ante una señal R-2 de STOP o no ceder el paso.",
     descripcion: "La señal de STOP exige la detención total y completa del vehículo ante la línea de detención o antes de la intersección. Hacer un 'ceda el paso dinámico' sin parar por completo es motivo de sanción de 200 € y 4 puntos del carnet.",
-    baseLegal: "Art. 76.l Ley de Tráfico y Art. 151 Reglamento de Circulación.",
+    baseLegal: "RDL 6/2015 Art. 76.l, Anexo II apartado 14 y Art. 151 RGC.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "2 años sin infracciones graves.",
     comoRecurrir: "Alegar visibilidad nula que obligaba a rebasar ligeramente la línea para el segundo STOP reglamentario.",
     consejos: [
@@ -335,8 +359,10 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "Conducir de forma manifiestamente temeraria poniendo en concreto peligro la vida de otros.",
     descripcion: "Conducir de manera temeraria supone una multa de 500 € y la retirada de 6 puntos. Si concurre peligro concreto para la vida o la integridad física de las personas, se remite a la vía penal (Art. 380 CP), castigado con penas de prisión de 6 meses a 2 años y retirada de carnet de 1 a 6 años.",
-    baseLegal: "Art. 77.e Ley de Tráfico y Art. 380 Código Penal.",
-    plazoRecuperacion: "Cursos y sentencia judicial.",
+    baseLegal: "RDL 6/2015 Art. 77.e, Anexo II apartado 3 y Código Penal Art. 380.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
+    plazoRecuperacion: "Cursos y cumplimiento de sentencia judicial.",
     comoRecurrir: "Demostrar ausencia de peligro concreto y tipificación excesiva frente a negligencia.",
     consejos: [
       "Conduce siempre respetando las normas y adaptando la velocidad a las condiciones de la vía."
@@ -356,13 +382,15 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     articulo: "Art. 76.f LSV",
     importe: 200,
     prontoPago: 100,
-    puntos: 3,
+    puntos: 0,
     gravedad: "Grave",
     permiteProntoPago: true,
     resumen: "Llevar puestos auriculares o cascos conectados a aparatos de audio o teléfonos mientras se conduce.",
-    descripcion: "Queda prohibido conducir utilizando cascos o auriculares conectados a aparatos receptores o reproductores de sonido. Infracción grave sancionada con 200 € y pérdida de 3 puntos. Aplica tanto a automóviles como motocicletas, bicicletas y vehículos de movilidad personal (VMP).",
-    baseLegal: "Art. 76.f Ley de Seguridad Vial.",
-    plazoRecuperacion: "2 años sin sanciones graves.",
+    descripcion: "Queda prohibido conducir utilizando cascos o auriculares conectados a aparatos receptores o reproductores de sonido. Infracción grave sancionada con 200 € (100 € en pronto pago). Conforme al Anexo II de la Ley de Seguridad Vial (revisado por Ley 18/2021), el uso de auriculares no detrae puntos del carnet (la detracción de puntos se reserva a la manipulación manual de teléfonos móviles).",
+    baseLegal: "RDL 6/2015 Art. 76.f y Art. 18.2 RGC.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
+    plazoRecuperacion: "No retira puntos.",
     comoRecurrir: "Acreditar dispositivos de intercomunicación homologados en casco de moto expresamente autorizados por la DGT.",
     consejos: [
       "En moto solo están permitidos los intercomunicadores homologados integrados en el casco con fines de comunicación o navegación."
@@ -386,8 +414,10 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     gravedad: "Grave",
     permiteProntoPago: true,
     resumen: "Acceder o circular por una ZBE sin el distintivo ambiental DGT requerido o autorización municipal.",
-    descripcion: "No respetar las restricciones de acceso, circulación y estacionamiento derivadas de la aplicación de los protocolos de contaminación y de las zonas de bajas emisiones (ZBE) en municipios de más de 50.000 habitantes es una infracción grave sancionada con 200 € (100 € en pronto pago). No resta puntos.",
-    baseLegal: "Art. 76.z3 Ley de Seguridad Vial y Ley 7/2021 de Cambio Climático.",
+    descripcion: "No respetar las restricciones de acceso, circulación y estacionamiento derivadas de la aplicación de los protocolos de contaminación y de las zonas de bajas emisiones (ZBE) en municipios es una infracción grave sancionada con 200 € (100 € en pronto pago). No detrae puntos del carnet.",
+    baseLegal: "RDL 6/2015 Art. 76.z3 añadido por Ley 18/2021 y Ley 7/2021 de Cambio Climático.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "No retira puntos.",
     comoRecurrir: "Acreditar empadronamiento, autorización temporal solicitada, vehículo histórico o error en la lectura OCR de la matrícula por cámaras del ayuntamiento.",
     consejos: [
@@ -411,9 +441,11 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     puntos: 0,
     gravedad: "Muy Grave",
     permiteProntoPago: false,
-    resumen: "El titular no identifica debidamente al conductor tras un requerimiento de la DGT.",
-    descripcion: "Si se comete una infracción que conlleva pérdida de puntos o no fue notificada en el acto y el titular del vehículo no identifica verazmente al conductor en el plazo concedido, comete infracción muy grave sancionada con el doble de la multa original (si era leve) o el triple (si era grave o muy grave, ej. 600 € a 1.800 €). No tiene descuento por pronto pago.",
-    baseLegal: "Art. 77.j y Art. 80.2 Ley de Seguridad Vial.",
+    resumen: "El titular no identifica debidamente al conductor tras un requerimiento formal de la DGT.",
+    descripcion: "Si se comete una infracción que conlleva pérdida de puntos y el titular del vehículo no identifica verazmente al conductor en el plazo concedido, comete infracción muy grave sancionada con el doble de la multa original (si era leve) o el triple (si era grave o muy grave, ej. 600 € a 1.800 €). Por imperativo del Art. 93.2 LSV, esta sanción no admite reducción por pronto pago.",
+    baseLegal: "RDL 6/2015 Art. 77.j, Art. 80.2.b y Art. 93.2.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "No retira puntos pero el coste económico se triplica.",
     comoRecurrir: "Demostrar que el vehículo había sido sustraído o identificar documentalmente al conductor con copia de contrato de alquiler o autorización.",
     consejos: [
@@ -422,7 +454,7 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     faq: [
       {
         pregunta: "¿Tiene derecho al 50% de descuento la multa por no identificar?",
-        respuesta: "No. La ley prohíbe expresamente cualquier bonificación por pronto pago en la infracción por no identificación del conductor."
+        respuesta: "No. El artículo 93.2 de la Ley sobre Tráfico prohíbe expresamente cualquier bonificación por pronto pago en la infracción por no identificación del conductor."
       }
     ]
   },
@@ -431,16 +463,18 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     slug: "arrojar-objetos-a-la-via-colillas",
     titulo: "Arrojar objetos a la vía que puedan causar incendios o accidentes",
     categoria: "Seguridad y Cinturón",
-    articulo: "Art. 76.u LSV",
+    articulo: "Art. 77.i LSV",
     importe: 500,
     prontoPago: 250,
     puntos: 6,
     gravedad: "Muy Grave",
     permiteProntoPago: true,
     resumen: "Arrojar a la vía o sus inmediaciones objetos que puedan producir incendios o accidentes.",
-    descripcion: "Arrojar colillas u otros objetos que puedan producir incendios o suponer peligro para la circulación está castigado con 500 € y 6 puntos del carnet desde 2022. Además puede conllevar responsabilidades penales en materia de delitos forestales.",
-    baseLegal: "Art. 76.u Ley de Tráfico y Código Penal.",
-    plazoRecuperacion: "2 años sin infracciones graves.",
+    descripcion: "Arrojar colillas u otros objetos que puedan producir incendios o suponer peligro para la circulación está castigado como infracción muy grave con 500 € y 6 puntos del carnet (tras la Ley 18/2021 pasó de grave con 4 puntos a muy grave con 6 puntos). Además puede conllevar responsabilidades penales en materia de delitos forestales.",
+    baseLegal: "RDL 6/2015 Art. 77.i y Anexo II apartado 7 modificado por Ley 18/2021.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
+    plazoRecuperacion: "2 años sin infracciones graves o muy graves.",
     comoRecurrir: "Alegar falta de pruebas concluyentes en denuncias voluntarias sin fotografía o vídeo.",
     consejos: [
       "Lleva siempre un cenicero hermético portátil en el coche."
@@ -448,7 +482,7 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     faq: [
       {
         pregunta: "¿Aplica también si lo tira un acompañante?",
-        respuesta: "La sanción económica puede dirigirse al autor o al titular si no se identifica, y la pérdida de puntos al conductor si no se prueba autoría distinta."
+        respuesta: "La sanción económica puede dirigirse al autor material si es identificado, o al conductor si no se puede probar autoría ajena."
       }
     ]
   },
@@ -464,10 +498,12 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     gravedad: "Grave",
     permiteProntoPago: true,
     resumen: "Adelantar poniendo en peligro o sin cambiar de carril / respetar 1,5 metros con ciclistas.",
-    descripcion: "Al adelantar a bicicletas o ciclomotores, es obligatorio ocupar completamente el carril contiguo en vías de más de un carril por sentido, o mantener al menos 1,5 metros de distancia lateral en vías de un carril. Incumplirlo resta 6 puntos y 200 €.",
-    baseLegal: "Art. 76.c y Art. 35 Reglamento General de Circulación.",
+    descripcion: "Al adelantar a bicicletas o ciclomotores, es obligatorio ocupar completamente el carril contiguo en vías de más de un carril por sentido, o mantener al menos 1,5 metros de distancia lateral en vías de un carril. Incumplirlo resta 6 puntos y 200 € desde la reforma de la Ley 18/2021.",
+    baseLegal: "RDL 6/2015 Art. 76.c y Anexo II apartado 12 (Ley 18/2021); Art. 35 RGC.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "2 años sin infracciones graves.",
-    comoRecurrir: "Aportar telemetría o imágenes de cámara de a bordo que demuestren ocupación completa de carril.",
+    comoRecurrir: "Aportar telemetría o imágenes de cámara de a bordo que demuestren ocupación completa de carril o distancia suficiente.",
     consejos: [
       "Está permitido pisar y rebasar la línea continua para adelantar a ciclistas siempre que haya visibilidad y seguridad."
     ],
@@ -491,7 +527,9 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "Inmovilizar el vehículo en carriles bus, taxi o vías ciclistas entorpeciendo el paso.",
     descripcion: "Parar o estacionar en el carril reservado para autobuses, taxis o vías ciclistas es una infracción grave que acarrea 200 € de multa y retirada con grúa al depósito municipal. No descuenta puntos.",
-    baseLegal: "Art. 76.d de la Ley de Seguridad Vial.",
+    baseLegal: "RDL 6/2015 Art. 76.d y Art. 94 RGC.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "No retira puntos.",
     comoRecurrir: "Avería mecánica debidamente justificada con asistencia de grúa de auxilio.",
     consejos: [
@@ -517,8 +555,10 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "Conducir en sentido contrario por autopistas, autovías o calles urbanas.",
     descripcion: "Circular en sentido contrario en cualquier tipo de vía es una infracción muy grave con sanción de 500 € y 6 puntos. Si se realiza en autopista o de forma continuada, puede imputarse como delito de conducción temeraria del Art. 380 o 381 del Código Penal.",
-    baseLegal: "Art. 77.f Ley de Seguridad Vial y Art. 380 CP.",
-    plazoRecuperacion: "2 años y cursos.",
+    baseLegal: "RDL 6/2015 Art. 77.f, Anexo II apartado 3 y Código Penal Art. 380.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
+    plazoRecuperacion: "2 años y cursos de recuperación.",
     comoRecurrir: "Acreditar señalización viaria defectuosa, tapada o confusa en la incorporación.",
     consejos: [
       "Ante la duda en una incorporación, detente en el arcén y señaliza inmediatamente."
@@ -543,7 +583,9 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "Circular pegado al vehículo de delante sin dejar espacio para frenar con seguridad.",
     descripcion: "Todo conductor debe mantener con el vehículo que le precede una distancia que le permita detenerse en caso de frenado brusco sin colisionar. No respetarla resta 4 puntos y 200 € de multa.",
-    baseLegal: "Art. 76.n Ley de Tráfico y Art. 54 Reglamento de Circulación.",
+    baseLegal: "RDL 6/2015 Art. 76.n, Anexo II apartado 13 y Art. 54 RGC.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "2 años sin infracciones graves.",
     comoRecurrir: "Solicitar filmación continua del helicóptero Pegasus o dron para comprobar si hubo maniobra previa del vehículo adelantado que redujo el espacio.",
     consejos: [
@@ -569,7 +611,9 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "Conducir sin haber renovado la vigencia del permiso de conducción.",
     descripcion: "Conducir con el carnet de conducir caducado acarrea una sanción de 200 € (100 € en pronto pago). No resta puntos. No es necesario volver a examinarse, solo pasar el reconocimiento psicofísico y abonar la tasa de renovación.",
-    baseLegal: "Art. 76.p Ley de Tráfico y Art. 12 Reglamento General de Conductores.",
+    baseLegal: "RDL 6/2015 Art. 76.p y Art. 12 Reglamento General de Conductores.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "No retira puntos.",
     comoRecurrir: "Aportar justificante de renovación tramitada antes de la sanción.",
     consejos: [
@@ -589,13 +633,15 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     categoria: "Documentación e ITV",
     articulo: "Art. 384 Código Penal",
     importe: 500,
-    prontoPago: 250,
+    prontoPago: 500,
     puntos: 0,
     gravedad: "Delito Penal",
     permiteProntoPago: false,
     resumen: "Ponerse al volante habiendo recibido la resolución firme de pérdida de vigencia por puntos.",
-    descripcion: "Conducir tras la pérdida total de los puntos legalmente asignados constituye delito penal tipificado en el artículo 384 del Código Penal. Conlleva pena de prisión de 3 a 6 meses o multa de 12 a 24 meses o trabajos comunitarios de 31 a 90 días.",
-    baseLegal: "Art. 384 Código Penal y Ley de Seguridad Vial.",
+    descripcion: "Conducir tras la pérdida total de los puntos legalmente asignados constituye delito penal tipificado en el artículo 384 del Código Penal. Conlleva pena de prisión de 3 a 6 meses o multa de 12 a 24 meses o trabajos comunitarios de 31 a 90 días. En vía administrativa previa, constituye infracción muy grave (Art. 77.k LSV) de 500 €.",
+    baseLegal: "Código Penal Art. 384 y RDL 6/2015 Art. 77.k.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-1995-25444",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "Curso de recuperación total de 24 horas tras 6 meses de inhabilitación (3 meses para conductores profesionales).",
     comoRecurrir: "Comprobar posibles defectos en las notificaciones edictales de pérdida de vigencia (falta de conocimiento real de la pérdida).",
     consejos: [
@@ -613,16 +659,18 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     slug: "matricula-ilegible-o-manipulada",
     titulo: "Placa de matrícula ilegible, deteriorada o manipulada",
     categoria: "Documentación e ITV",
-    articulo: "Art. 76.p / 77.k LSV",
+    articulo: "Art. 76.p / 77.ñ LSV",
     importe: 200,
     prontoPago: 100,
     puntos: 0,
     gravedad: "Grave",
     permiteProntoPago: true,
     resumen: "Circular con placas de matrícula sin visibilidad, dobladas, sucias o alteradas.",
-    descripcion: "Llevar la placa desgastada, doblada o sucia de barro que impida su lectura supone 200 € de multa. Si la placa ha sido deliberadamente manipulada (sistemas retráctiles, reflectantes químicos o adhesivos para burlar radares), la sanción se eleva a 6.000 € y 6 puntos.",
-    baseLegal: "Art. 76.p y Art. 77.k Ley sobre Tráfico.",
-    plazoRecuperacion: "2 años en caso de manipulación (6 puntos).",
+    descripcion: "Llevar la placa desgastada, doblada o sucia de barro que impida su lectura supone 200 € de multa (infracción grave, 0 puntos). Si la placa ha sido deliberadamente manipulada (sistemas retráctiles, reflectantes químicos o adhesivos para eludir radares), la infracción pasa a muy grave según el Art. 77.ñ LSV con sanción de 6.000 € y detracción de 6 puntos (Anexo II apartado 5).",
+    baseLegal: "RDL 6/2015 Art. 76.p y Art. 77.ñ.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
+    plazoRecuperacion: "2 años en caso de manipulación intencionada (6 puntos).",
     comoRecurrir: "Factura de sustitución inmediata de placas y prueba fotográfica.",
     consejos: [
       "Reemplaza matrículas acrílicas o metálicas en cuanto comiencen a pelarse las láminas reflectantes."
@@ -647,7 +695,9 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "Desobedecer las órdenes, alto o indicaciones directas de Guardia Civil o Policía Local.",
     descripcion: "Las señales de los agentes de tráfico prevalecen sobre cualquier otra señal vial (semáforos, señales verticales o marcas viales). Desobedecer sus indicaciones directas conlleva sanción grave de 200 € y 4 puntos del carnet.",
-    baseLegal: "Art. 76.b Ley de Seguridad Vial y Art. 143 RGC.",
+    baseLegal: "RDL 6/2015 Art. 76.b, Anexo II apartado 16 y Art. 143 RGC.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "2 años sin infracciones graves.",
     comoRecurrir: "Alegar falta de visibilidad del agente en condiciones climatológicas adversas o peligro para terceros en caso de frenado imprevisto.",
     consejos: [
@@ -673,7 +723,9 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "Dar marcha atrás tras pasarse una salida en vías de alta velocidad.",
     descripcion: "Efectuar la maniobra de marcha atrás en autopistas y autovías está terminantemente prohibido bajo cualquier circunstancia. Conlleva 200 € y 4 puntos. Si la maniobra genera grave riesgo para los vehículos que circulan a alta velocidad, puede ser imputada como conducción temeraria con 6 puntos.",
-    baseLegal: "Art. 76.a Ley sobre Tráfico y Art. 80 Reglamento de Circulación.",
+    baseLegal: "RDL 6/2015 Art. 76.a, Anexo II apartado 11 y Art. 80 RGC.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "2 años sin infracciones graves.",
     comoRecurrir: "Imposible de justificar salvo orden expresa de agentes por corte absoluto de vía.",
     consejos: [
@@ -699,7 +751,9 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "Circular sin luces de cruce o posición en túneles o condiciones meteorológicas adversas.",
     descripcion: "Circular sin encender el alumbrado obligatorio entre el ocaso y la salida del sol, o a cualquier hora en túneles, pasos inferiores o con niebla/lluvia intensa, supone una sanción de 200 € (100 € en pronto pago). No descuenta puntos.",
-    baseLegal: "Art. 76.e Ley de Tráfico y Arts. 99-106 RGC.",
+    baseLegal: "RDL 6/2015 Art. 76.e y Arts. 99-106 RGC.",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11722",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "No retira puntos.",
     comoRecurrir: "Avería repentina demostrada con factura de sustitución de lámparas.",
     consejos: [
@@ -725,7 +779,9 @@ export const INFRACTIONS_DATA: InfractionData[] = [
     permiteProntoPago: true,
     resumen: "Neumáticos sin dibujo mínimo legal de 1,6 mm, con alambres visibles o ampollas.",
     descripcion: "Circular con neumáticos cuya banda de rodadura tenga una profundidad inferior a 1,6 mm o presenten cortes o deformaciones es una infracción de 200 € por cada neumático afectado. Si el estado es de riesgo grave, el vehículo puede ser inmovilizado.",
-    baseLegal: "Reglamento General de Vehículos y Ley de Seguridad Vial.",
+    baseLegal: "RDL 6/2015 Art. 76.o y Real Decreto 2822/1998 (Reglamento General de Vehículos).",
+    fuente: "https://www.boe.es/buscar/act.php?id=BOE-A-1999-1826",
+    fechaVerificacion: "2026-11-16",
     plazoRecuperacion: "No retira puntos.",
     comoRecurrir: "Informe pericial de dibujo legal y certificado de montaje reciente.",
     consejos: [

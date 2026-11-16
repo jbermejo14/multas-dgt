@@ -51,6 +51,8 @@ export interface InfractionData {
   plazoRecuperacion: string;
   comoRecurrir: string;
   consejos: string[];
+  fuente: string;
+  fechaVerificacion: string; // Fecha en formato ISO (YYYY-MM-DD)
   faq: {
     pregunta: string;
     respuesta: string;
