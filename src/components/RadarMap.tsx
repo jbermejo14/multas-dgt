@@ -513,7 +513,7 @@ export function RadarMap({ onSelectRadarLimit }: RadarMapProps) {
             </div>
             <div>
               <h3 className="text-lg md:text-xl font-black text-neutral-900 dark:text-white flex items-center gap-2">
-                Ranking Oficial: Los Radares que Más Multan en España
+                Ranking: Los Radares que Más Multan en España
               </h3>
               <p className="text-xs text-neutral-500 dark:text-neutral-400">
                 Los 10 cinemómetros con mayor recaudación y número de denuncias según el informe anual de AEA y DGT.
@@ -686,7 +686,7 @@ export function RadarMap({ onSelectRadarLimit }: RadarMapProps) {
                 className={`px-2 py-0.5 rounded text-[11px] font-bold transition-colors ${
                   mapTheme === "osm" ? "bg-[#ff6b00] text-white" : "text-neutral-400 hover:text-neutral-200"
                 }`}
-                title="Capa OpenStreetMap Oficial"
+                title="Capa OpenStreetMap"
               >
                 OSM
               </button>

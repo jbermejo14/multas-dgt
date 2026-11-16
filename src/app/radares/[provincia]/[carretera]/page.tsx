@@ -39,21 +39,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!info) {
     return {
-      title: "Carretera no encontrada | RadarPuntos",
+      title: "Carretera no encontrada",
       description: "No se encontraron cinemómetros en la vía indicada.",
     };
   }
 
   const canonicalUrl = getCanonicalUrl(`/radares/${provSlug}/${roadSlug}`);
   return {
-    title: `Radares DGT en ${info.roadName} (${info.provinceName}): Puntos Kilométricos y Ubicación | RadarPuntos`,
+    title: `Radares DGT en ${info.roadName} (${info.provinceName}): Puntos Kilométricos y Ubicación`,
     description: `Consulta la ubicación de los ${info.totalRadars} radares fijos y de tramo en la ${info.roadName} en ${info.provinceName}. Sentido, PK y coordenadas DGT.`,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
       title: `Radares DGT en ${info.roadName} (${info.provinceName}) | RadarPuntos`,
-      description: `Ubicación oficial de cinemómetros en ${info.roadName} (${info.provinceName}).`,
+      description: `Ubicación de cinemómetros en ${info.roadName} (${info.provinceName}).`,
       url: canonicalUrl,
     },
   };
@@ -132,7 +132,7 @@ export default async function RadaresCarreteraPage({ params }: PageProps) {
               Radares DGT en {roadName} ({province.name})
             </h1>
             <p className="text-neutral-600 dark:text-neutral-300 text-sm sm:text-base max-w-3xl leading-relaxed">
-              Ubicación oficial de los cinemómetros situados a lo largo de la {roadName} a su paso por
+              Ubicación de los cinemómetros situados a lo largo de la {roadName} a su paso por
               la provincia de {province.name}. Puntos kilométricos, sentido de la marcha y coordenadas geográficas.
             </p>
 

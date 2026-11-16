@@ -8,7 +8,7 @@ Consultor ciudadano independiente de multas de tráfico, cálculo de pérdida de
 
 ## 🚀 Características Principales
 
-1. **Calculadora Oficial de Exceso de Velocidad:**
+1. **Calculadora de Exceso de Velocidad:**
    - Implementada en un módulo puro (`src/lib/speedFine.ts`) según el **Anexo IV del RDL 6/2015** (Ley de Tráfico).
    - Aplica los márgenes de error metrológicos oficiales fijados en la **Orden ICT/155/2020** (3 km/h o 3% para radares fijos/tramo; 5 km/h o 5% para móviles).
    - Detección automática del umbral penal según el **Artículo 379.1 del Código Penal** (+60 km/h en vía urbana, +80 km/h en interurbana).
@@ -20,7 +20,7 @@ Consultor ciudadano independiente de multas de tráfico, cálculo de pérdida de
    - Páginas dedicadas en `/multas/[slug]` con metadatos OpenGraph, datos estructurados `BreadcrumbList` y `FAQPage` JSON-LD.
 
 3. **SEO Programático de Radares DGT:**
-   - Dataset oficial de 737 cinemómetros (fijos y de tramo) obtenido del canal DATEX II del **Punto de Acceso Nacional (NAP) de la DGT**.
+   - Dataset de 737 cinemómetros (fijos y de tramo) obtenido del canal DATEX II del **Punto de Acceso Nacional (NAP) de la DGT**.
    - Navegación multinivel con slugs normalizados y libres de acentos:
      - `/radares`: Directorio nacional por provincias.
      - `/radares/[provincia]`: 43 páginas provinciales con mapa OpenStreetMap y desglose de vías.
@@ -81,6 +81,13 @@ npm run start
 
 ---
 
+
+### Tailwind CSS y PostCSS
+
+Tailwind 4 se integra por PostCSS (`postcss.config.mjs`, plugin `@tailwindcss/postcss`), de modo que funciona igual con webpack (`npm run build` usa `next build --webpack`) y con Turbopack (despliegue en Linux). No hay regla `turbopack` en `next.config.ts`: Turbopack lee el `postcss.config.mjs` de la raíz.
+
+En Windows con una política de Control de Aplicaciones que bloquea los binarios nativos (`@next/swc-win32-x64-msvc` y `@tailwindcss/oxide-win32-x64-msvc`) se usa la variante WASM `@tailwindcss/oxide-wasm32-wasi` (4.3.3, en `optionalDependencies`). Su escáner no puede leer rutas de Windows desde WASI y no detecta ninguna clase, así que el plugin `postcss-tailwind-windows.cjs` extrae las clases de `src/` y las declara con `@source inline()`, solo cuando `process.platform === "win32"`. En Linux se usa el binario nativo y el escáner normal. Para instalar la variante WASM en Windows hace falta `npm install --force` (el paquete declara `cpu: wasm32`).
+
 ## 🧪 Pruebas Automatizadas (Offline)
 
 El proyecto cuenta con una suite completa de pruebas unitarias y de integración que se ejecutan sin conexión de red mediante el test runner nativo de Node.js:
@@ -101,7 +108,7 @@ npm test
    - Comprueba el umbral de delito contra la seguridad vial del Código Penal (Art. 379.1).
 3. `test/seo-data.test.mjs`:
    - Dominio base canónico y estructura de URLs.
-   - Integridad de los 737 cinemómetros oficiales de la DGT.
+   - Integridad de los 737 cinemómetros publicados por la DGT.
    - Slugs estables sin acentos para provincias y carreteras.
    - Generación de sitemap con cobertura de más de 1.100 páginas.
 
@@ -116,7 +123,7 @@ npm test
 4. Establece la fecha actual en formato ISO (`YYYY-MM-DD`) en el campo `fechaVerificacion`.
 5. Ejecuta `npm test` para asegurar que las validaciones legales siguen pasando.
 
-### 2. Actualización del Catálogo Oficial de Radares DGT
+### 2. Actualización del Catálogo de Radares DGT
 1. Descarga el feed XML de ubicaciones predefinidas del Punto de Acceso Nacional (NAP DGT):
    ```bash
    curl -o scripts/sample.xml "https://nap.dgt.es/datex2/dgt/PredefinedLocationsPublication/radares/content.xml"

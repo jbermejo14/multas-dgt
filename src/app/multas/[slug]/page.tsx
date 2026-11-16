@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!infraction) {
     return {
-      title: "Infracción no encontrada | RadarPuntos",
+      title: "Infracción no encontrada",
       description: "La infracción solicitada no existe en el catálogo de sanciones.",
     };
   }

@@ -28,21 +28,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!province) {
     return {
-      title: "Provincia no encontrada | RadarPuntos",
+      title: "Provincia no encontrada",
       description: "No se encontraron radares en la provincia solicitada.",
     };
   }
 
   const canonicalUrl = getCanonicalUrl(`/radares/${province.slug}`);
   return {
-    title: `Radares DGT en ${province.name}: Ubicación, Carreteras y PK | RadarPuntos`,
+    title: `Radares DGT en ${province.name}: Ubicación, Carreteras y PK`,
     description: `Consulta la ubicación de los ${province.totalRadars} radares fijos y de tramo de la DGT en la provincia de ${province.name}. Puntos kilométricos y vías.`,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
       title: `Radares DGT en ${province.name} | RadarPuntos`,
-      description: `Ubicación oficial de cinemómetros en ${province.name} en ${province.roadsCount} carreteras.`,
+      description: `Ubicación de cinemómetros en ${province.name} en ${province.roadsCount} carreteras.`,
       url: canonicalUrl,
     },
   };

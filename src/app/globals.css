@@ -1,3 +1,4 @@
+/* Tailwind 4 se procesa por PostCSS (ver postcss.config.mjs). */
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));

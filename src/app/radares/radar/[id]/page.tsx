@@ -32,21 +32,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!radar) {
     return {
-      title: "Radar no encontrado | RadarPuntos",
-      description: "El radar solicitado no existe en la base de datos oficial.",
+      title: "Radar no encontrado",
+      description: "El radar solicitado no existe en el catálogo de radares.",
     };
   }
 
   const canonicalUrl = getCanonicalUrl(`/radares/radar/${radar.id}`);
   return {
-    title: `Radar DGT en ${radar.carretera} PK ${radar.pk} (${radar.provincia}) | RadarPuntos`,
-    description: `Ficha técnica oficial del radar de ${radar.tipo.toLowerCase()} en ${radar.carretera} PK ${radar.pk} (${radar.provincia}), sentido ${radar.sentido}. Coordenadas y límites.`,
+    title: `Radar DGT en ${radar.carretera} PK ${radar.pk} (${radar.provincia})`,
+    description: `Ficha del radar de ${radar.tipo.toLowerCase()} en ${radar.carretera} PK ${radar.pk} (${radar.provincia}), sentido ${radar.sentido}. Coordenadas y límites según el Punto de Acceso Nacional de la DGT.`,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
       title: `Radar DGT en ${radar.carretera} PK ${radar.pk} | RadarPuntos`,
-      description: `Ubicación oficial de cinemómetro DGT en ${radar.carretera} PK ${radar.pk} (${radar.provincia}).`,
+      description: `Ubicación del cinemómetro DGT en ${radar.carretera} PK ${radar.pk} (${radar.provincia}).`,
       url: canonicalUrl,
     },
   };

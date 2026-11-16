@@ -6,9 +6,9 @@ import { JsonLd } from "@/components/JsonLd";
 import { Navigation, MapPin, ShieldAlert, ExternalLink, ChevronRight, Info } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Radares DGT en España por Provincias y Carreteras | RadarPuntos",
+  title: "Radares DGT en España por Provincias y Carreteras",
   description:
-    "Consulta la ubicación de los 737 radares fijos y de tramo de la DGT en España. Filtrados por provincia, carretera y punto kilométrico con coordenadas oficiales.",
+    "Consulta la ubicación de los 737 radares fijos y de tramo de la DGT en España. Filtrados por provincia, carretera y punto kilométrico con coordenadas del Punto de Acceso Nacional de la DGT.",
   alternates: {
     canonical: getCanonicalUrl("/radares"),
   },
@@ -57,7 +57,7 @@ export default function RadaresIndexPage() {
           <header className="p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#141414] shadow-sm space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#ff6b00]/10 text-[#ff6b00] dark:bg-[#ff6b00]/20">
               <Navigation className="w-3.5 h-3.5" />
-              Datos Oficiales DGT &bull; Punto de Acceso Nacional
+              Datos de la DGT &bull; Punto de Acceso Nacional
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-neutral-900 dark:text-white tracking-tight">
               Radares DGT en España: Provincias y Carreteras
@@ -94,7 +94,7 @@ export default function RadaresIndexPage() {
               <div className="space-y-1">
                 <p>
                   <strong>Transparencia de datos:</strong> Las ubicaciones y coordenadas proceden del canal DATEX II del
-                  Punto de Acceso Nacional de la DGT (publicación 18/12/2025). El catálogo oficial de la DGT no incluye
+                  Punto de Acceso Nacional de la DGT (publicación 18/12/2025). El catálogo de la DGT no incluye
                   los límites de velocidad específicos por cinemómetro en su feed; señalamos la velocidad genérica del
                   tipo de vía y recomendamos atender siempre a la señalización vertical en el tramo.
                 </p>
