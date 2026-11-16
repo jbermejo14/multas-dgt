@@ -1,26 +1,113 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg-page: #ffffff;
+    --bg-surface: #f8f9fa;
+    --bg-surface-elevated: #ffffff;
+    --border-color: #e5e7eb;
+    --text-primary: #111111;
+    --text-secondary: #6b7280;
+    --color-orange-primary: #ff6b00;
+  }
+
+  .dark {
+    --bg-page: #0d0d0d;
+    --bg-surface: #171717;
+    --bg-surface-elevated: #202020;
+    --border-color: #262626;
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --color-orange-primary: #ff6b00;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Custom radar radar-sweep effect */
+@keyframes radar-pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 16px rgba(255, 107, 0, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 107, 0, 0);
+  }
+}
+
+.animate-radar-pulse {
+  animation: radar-pulse 2s infinite ease-out;
+}
+
+/* Leaflet Map overrides for custom dark/light integration */
+.leaflet-container {
+  font-family: inherit !important;
+  background-color: #1a1a1a !important;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #171717 !important;
+  color: #f3f4f6 !important;
+  border: 1px solid #333333 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.leaflet-popup-tip {
+  background: #171717 !important;
+}
+
+html:not(.dark) .leaflet-popup-content-wrapper {
+  background: #ffffff !important;
+  color: #111111 !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15) !important;
+}
+
+html:not(.dark) .leaflet-popup-tip {
+  background: #ffffff !important;
+}
+
+/* Custom slider thumb */
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ff6b00;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 107, 0, 0.6);
+  border: 2px solid #ffffff;
+  transition: transform 0.1s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ff6b00;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 107, 0, 0.6);
+  border: 2px solid #ffffff;
 }
