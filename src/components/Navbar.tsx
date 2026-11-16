@@ -49,7 +49,7 @@ export function Navbar({ activeTab, setActiveTab }: NavbarProps) {
                 Radar<span className="text-[#ff6b00]">Puntos</span>
               </span>
               <span className="text-[10px] uppercase tracking-wider font-semibold text-neutral-500 dark:text-neutral-400 -mt-1">
-                Consultor DGT España
+                Consultor de Multas España
               </span>
             </div>
           </Link>

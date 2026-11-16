@@ -13,6 +13,14 @@ export function AdPlaceholder({
   format = "banner-horizontal",
   className = "",
 }: AdPlaceholderProps) {
+  const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
+  const isProduction = process.env.NODE_ENV === "production";
+
+  // Requisito: No renderizar en producción si no hay un ID de AdSense configurado
+  if (isProduction && !adsenseClient) {
+    return null;
+  }
+
   const getFormatClasses = () => {
     switch (format) {
       case "banner-horizontal":
@@ -38,7 +46,9 @@ export function AdPlaceholder({
         <span>Espacio Publicitario</span>
       </div>
       <p className="text-[11px] text-neutral-400/80 dark:text-neutral-600 max-w-md px-4">
-        Anuncio patrocinado relevante sobre recursos de multas, seguros de auto o cursos DGT
+        {adsenseClient
+          ? `Anuncio patrocinado (${adsenseClient})`
+          : "Espacio reservado para publicidad (desactivado en producción hasta configurar NEXT_PUBLIC_ADSENSE_CLIENT)"}
       </p>
       <div className="absolute top-2 right-2 text-[10px] text-neutral-400/60 dark:text-neutral-600 uppercase font-mono">
         Ad

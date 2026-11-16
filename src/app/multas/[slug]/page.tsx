@@ -6,6 +6,7 @@ import { INFRACTIONS_DATA } from "@/data/infractions";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { AdPlaceholder } from "@/components/AdPlaceholder";
+import { getCanonicalUrl, getSiteUrl } from "@/lib/siteConfig";
 import {
   ShieldAlert,
   Coins,
@@ -20,6 +21,8 @@ import {
   FileText,
   Clock,
   Sparkles,
+  ExternalLink,
+  ShieldCheck,
 } from "lucide-react";
 
 interface PageProps {
@@ -38,13 +41,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!infraction) {
     return {
-      title: "Infracción no encontrada | RadarPuntos",
-      description: "La infracción solicitada no existe en la base de datos.",
+      title: "Infracción no encontrada",
+      description: "La infracción solicitada no existe en el catálogo de sanciones.",
     };
   }
 
-  const title = `Multa por ${infraction.titulo} (${infraction.importe}€ y -${infraction.puntos} puntos) | DGT España`;
-  const description = `Consulta la cuantía oficial de ${infraction.importe}€ (${infraction.prontoPago}€ con pronto pago), pérdida de ${infraction.puntos} puntos, plazos para recurrir y base legal de ${infraction.articulo}.`;
+  const canonicalUrl = getCanonicalUrl(`/multas/${infraction.slug}`);
+  const title = `Multa por ${infraction.titulo} (${infraction.importe}€ y -${infraction.puntos} puntos)`;
+  const description = `Importe legal de ${infraction.importe}€ (${infraction.prontoPago}€ con 50% de pronto pago), detracción de ${infraction.puntos} puntos, plazos de alegaciones y normativa ${infraction.articulo}.`;
 
   return {
     title,
@@ -55,14 +59,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       infraction.articulo,
       "puntos carnet DGT",
       "pronto pago 50%",
-      "como recurrir multa DGT",
+      "como recurrir multa trafico",
     ],
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title,
       description,
       type: "article",
       locale: "es_ES",
-      url: `https://radarpuntos.es/multas/${infraction.slug}`,
+      url: canonicalUrl,
       siteName: "RadarPuntos",
     },
     twitter: {
@@ -81,7 +88,10 @@ export default async function InfractionDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  // Related infractions in same or other categories
+  const canonicalUrl = getCanonicalUrl(`/multas/${infraction.slug}`);
+  const siteUrl = getSiteUrl();
+
+  // Infracciones relacionadas
   const relatedInfractions = INFRACTIONS_DATA.filter(
     (item) => item.slug !== infraction.slug && item.categoria === infraction.categoria
   ).slice(0, 3);
@@ -101,38 +111,40 @@ export default async function InfractionDetailPage({ params }: PageProps) {
             "@type": "ListItem",
             "position": 1,
             "name": "Inicio",
-            "item": "https://radarpuntos.es/",
+            "item": `${siteUrl}/`,
           },
           {
             "@type": "ListItem",
             "position": 2,
-            "name": "Infracciones DGT",
-            "item": "https://radarpuntos.es/#infracciones",
+            "name": "Infracciones de Tráfico",
+            "item": `${siteUrl}/#infracciones`,
           },
           {
             "@type": "ListItem",
             "position": 3,
             "name": infraction.titulo,
-            "item": `https://radarpuntos.es/multas/${infraction.slug}`,
+            "item": canonicalUrl,
           },
         ],
       },
       {
         "@type": "Article",
-        "@id": `https://radarpuntos.es/multas/${infraction.slug}#article`,
-        "headline": `Multa por ${infraction.titulo}: Importe, Puntos y Cómo Recurrir`,
+        "@id": `${canonicalUrl}#article`,
+        "headline": `Multa por ${infraction.titulo}: Sanción, Puntos y Procedimiento`,
         "description": infraction.descripcion,
         "inLanguage": "es-ES",
+        "dateModified": `${infraction.fechaVerificacion}T00:00:00Z`,
         "author": {
           "@type": "Organization",
           "name": "RadarPuntos",
+          "url": siteUrl,
         },
       },
       ...(infraction.faq && infraction.faq.length > 0
         ? [
             {
               "@type": "FAQPage",
-              "@id": `https://radarpuntos.es/multas/${infraction.slug}#faq`,
+              "@id": `${canonicalUrl}#faq`,
               "mainEntity": infraction.faq.map((f) => ({
                 "@type": "Question",
                 "name": f.pregunta,
@@ -218,12 +230,31 @@ export default async function InfractionDetailPage({ params }: PageProps) {
               {infraction.resumen}
             </p>
 
+            {/* Verificación legal destacada */}
+            <div className="p-3.5 rounded-xl bg-white dark:bg-[#191919] border border-neutral-200 dark:border-neutral-800 text-xs flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2 text-neutral-600 dark:text-neutral-300">
+                <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
+                <span>
+                  <strong>Verificación legal:</strong> {infraction.fechaVerificacion}
+                </span>
+              </div>
+              <a
+                href={infraction.fuente}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 font-semibold text-[#ff6b00] hover:underline"
+              >
+                <span>Fuente oficial BOE</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+
             {/* Main Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-neutral-200 dark:border-neutral-800">
               {/* Sanción */}
               <div className="p-4 rounded-2xl bg-white dark:bg-[#191919] border border-neutral-200 dark:border-neutral-800">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400">
-                  Importe Oficial
+                  Importe Base
                 </span>
                 <div className="text-3xl font-black font-mono text-neutral-900 dark:text-white mt-1">
                   {infraction.importe} €
@@ -240,7 +271,7 @@ export default async function InfractionDetailPage({ params }: PageProps) {
                   {infraction.permiteProntoPago ? `${infraction.prontoPago} €` : "No aplicable"}
                 </div>
                 <span className="text-[10px] text-neutral-400">
-                  {infraction.permiteProntoPago ? "durante los primeros 20 días" : "sin opción a reducción"}
+                  {infraction.permiteProntoPago ? "primeros 20 días naturales" : "sin reducción (Art. 93.2 LSV)"}
                 </span>
               </div>
 
@@ -284,14 +315,23 @@ export default async function InfractionDetailPage({ params }: PageProps) {
               <section className="p-5 rounded-2xl bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 space-y-2">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-400 flex items-center gap-2">
                   <Scale className="w-4 h-4 text-[#ff6b00]" />
-                  Base Legal Oficial
+                  Base Legal y Enlace Oficial
                 </h3>
                 <p className="text-sm font-mono text-neutral-800 dark:text-neutral-200">
                   {infraction.baseLegal}
                 </p>
-                <p className="text-xs text-neutral-500">
-                  Publicado en el Boletín Oficial del Estado (BOE) conforme al Texto Refundido de la Ley sobre Tráfico, Circulación de Vehículos a Motor y Seguridad Vial.
-                </p>
+                <div className="pt-2 flex items-center gap-2 text-xs">
+                  <span className="text-neutral-500">Boletín Oficial del Estado:</span>
+                  <a
+                    href={infraction.fuente}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#ff6b00] underline font-semibold inline-flex items-center gap-1"
+                  >
+                    <span>{infraction.fuente}</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
               </section>
 
               {/* How to appeal / Pronto pago guide */}
@@ -306,10 +346,10 @@ export default async function InfractionDetailPage({ params }: PageProps) {
                   <div className="p-4 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-800 dark:text-amber-200 text-xs space-y-2">
                     <div className="flex items-center gap-2 font-bold">
                       <AlertTriangle className="w-4 h-4 text-amber-500" />
-                      Importante: La regla de incompatibilidad
+                      Regla de incompatibilidad entre pronto pago y recurso
                     </div>
                     <p>
-                      Si decides abonar la multa acogiéndote al 50% de descuento por pronto pago, la ley considera finalizado el procedimiento administrativo, por lo que <strong>renuncias a presentar alegaciones o recursos</strong>. Si presentas alegaciones, pierdes automáticamente el derecho a la reducción del 50%.
+                      Si decides abonar la sanción acogiéndote al 50% de descuento por pronto pago (20 días naturales), se pone fin a la vía administrativa y <strong>renuncias a presentar alegaciones</strong>. Si presentas alegaciones o recursos, pierdes automáticamente el derecho a la reducción del 50%.
                     </p>
                   </div>
                 </div>
@@ -324,7 +364,7 @@ export default async function InfractionDetailPage({ params }: PageProps) {
                 <div className="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300 space-y-3">
                   <p>{infraction.plazoRecuperacion}</p>
                   <p>
-                    Para recuperar los puntos de forma acelerada, puedes matricularte en los cursos de sensibilización y reeducación vial de 12 horas presenciales acreditados por la DGT en autoescuelas autorizadas, los cuales permiten recuperar hasta 4 puntos.
+                    Para recuperar los puntos de forma acelerada, puedes realizar un curso de sensibilización y reeducación vial de 12 horas presenciales acreditado en centros autorizados, recuperando hasta un máximo de 4 puntos.
                   </p>
                 </div>
               </section>
@@ -334,7 +374,7 @@ export default async function InfractionDetailPage({ params }: PageProps) {
                 <section className="p-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#141414] space-y-3">
                   <h3 className="text-base font-bold text-neutral-900 dark:text-white flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-[#ff6b00]" />
-                    Recomendaciones de Conducción Segura
+                    Recomendaciones de Conducción Preventiva
                   </h3>
                   <ul className="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
                     {infraction.consejos.map((c, i) => (
@@ -347,7 +387,7 @@ export default async function InfractionDetailPage({ params }: PageProps) {
                 </section>
               )}
 
-              {/* Infraction specific FAQ */}
+              {/* Infraction specific FAQ (Visible en página -> FAQPage JSON-LD válido) */}
               {infraction.faq.length > 0 && (
                 <section className="space-y-4">
                   <h2 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-white flex items-center gap-2">
@@ -373,7 +413,7 @@ export default async function InfractionDetailPage({ params }: PageProps) {
               )}
             </div>
 
-            {/* Sidebar with Sticky Ads and Related Sanciones */}
+            {/* Sidebar */}
             <aside className="space-y-6">
               <AdPlaceholder format="rectangle" />
 
@@ -383,7 +423,7 @@ export default async function InfractionDetailPage({ params }: PageProps) {
                   ¿Te han multado por velocidad?
                 </h4>
                 <p className="text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed">
-                  Calcula de inmediato la sanción exacta aplicando el margen metrológico del 3-5% en nuestra herramienta oficial.
+                  Calcula de inmediato la sanción deduciendo el margen metrológico del 3-5% según la Orden ICT/155/2020.
                 </p>
                 <Link
                   href="/#calculadora"

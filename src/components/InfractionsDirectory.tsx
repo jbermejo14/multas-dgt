@@ -58,7 +58,7 @@ export function InfractionsDirectory() {
         <div className="max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#ff6b00]/10 text-[#ff6b00] dark:bg-[#ff6b00]/20 mb-2">
             <FileText className="w-3.5 h-3.5" />
-            Catálogo Oficial DGT
+            Catálogo Ley de Seguridad Vial
           </div>
           <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
             Buscador de Infracciones y Pérdida de Puntos
@@ -115,7 +115,7 @@ export function InfractionsDirectory() {
 
         {/* Counter */}
         <div className="mt-3 flex justify-between text-xs text-neutral-400">
-          <span>Mostrando {filteredInfractions.length} de {INFRACTIONS_DATA.length} infracciones DGT</span>
+          <span>Mostrando {filteredInfractions.length} de {INFRACTIONS_DATA.length} infracciones</span>
           {selectedCategory !== "Todas" && (
             <button
               onClick={() => setSelectedCategory("Todas")}
@@ -183,7 +183,7 @@ export function InfractionsDirectory() {
                 <div className="flex items-baseline justify-between mb-3">
                   <div>
                     <span className="text-[10px] uppercase font-bold text-neutral-400 block">
-                      Importe Oficial
+                      Importe Base
                     </span>
                     <span className="text-xl font-black text-neutral-900 dark:text-white font-mono">
                       {inf.importe} €
@@ -303,9 +303,29 @@ export function InfractionsDirectory() {
                 <p>{activeModalInfraction.descripcion}</p>
               </div>
 
-              <div className="p-3 rounded-xl bg-neutral-100 dark:bg-neutral-800/60 text-xs">
-                <span className="font-bold text-neutral-800 dark:text-neutral-200">Base Legal Oficial: </span>
-                <span className="font-mono text-neutral-500 dark:text-neutral-400">{activeModalInfraction.baseLegal}</span>
+              <div className="p-3 rounded-xl bg-neutral-100 dark:bg-neutral-800/60 text-xs space-y-1">
+                <div>
+                  <span className="font-bold text-neutral-800 dark:text-neutral-200">Base Legal: </span>
+                  <span className="font-mono text-neutral-500 dark:text-neutral-400">{activeModalInfraction.baseLegal}</span>
+                </div>
+                {activeModalInfraction.fuente && (
+                  <div className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                    <span>Fuente legal verificada: </span>
+                    <a
+                      href={activeModalInfraction.fuente}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#ff6b00] hover:underline"
+                    >
+                      Consultar texto oficial en BOE
+                    </a>
+                    {activeModalInfraction.fechaVerificacion && (
+                      <span className="ml-2 text-neutral-400">
+                        (Verificado: {activeModalInfraction.fechaVerificacion})
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div>

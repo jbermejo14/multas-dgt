@@ -2,7 +2,7 @@ import { RadarData } from "@/types";
 
 export const RADARS_DATA: RadarData[] = [
   // ==========================================
-  // TOP RADARES QUE MÁS MULTAN EN ESPAÑA (RANKING OFICIAL DGT / AEA)
+  // TOP RADARES QUE MÁS MULTAN EN ESPAÑA (RANKING DGT / AEA)
   // ==========================================
   {
     id: "top-cadiz-01",
