@@ -51,11 +51,9 @@ npm run dev
 npm run build
 ```
 
-```bash
-npm run start
-```
+En desarrollo la web está en `http://localhost:3000/es/multas` (la raíz `/` da 404, porque todo cuelga de la ruta base).
 
-En local la web está en `http://localhost:3000/es/multas` (la raíz `/` da 404, porque todo cuelga de la ruta base).
+`npm run build` exporta el sitio como ficheros estáticos en `out/` (`output: "export"` en `next.config.ts`). Con exportación estática no existe `npm run start`: para ver el resultado como en producción, usa `npm run preview` en `../ododex-sitio`.
 
 ---
 
@@ -88,9 +86,7 @@ NEXT_PUBLIC_ADSENSE_CLIENT=ca-pub-XXXXXXXXXXXXXXXX
 - **AdSense:** con `NEXT_PUBLIC_ADSENSE_CLIENT` válido se carga el script en todas las páginas. En la consola de AdSense hay que:
   - activar los anuncios automáticos para `ododex.com`;
   - crear el mensaje de consentimiento para la UE en "Privacidad y mensajes" (lo sirve el mismo script; no hay otra CMP).
-- **`robots.txt` y `ads.txt`:** solo valen en la raíz del dominio, que no sirve esta web. Deben existir en la raíz de `ododex.com`:
-  - `https://ododex.com/robots.txt` con la línea `Sitemap: https://ododex.com/es/multas/sitemap.xml` (además de los sitemaps de las otras secciones).
-  - `https://ododex.com/ads.txt` con `google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0` (los 16 dígitos del editor).
+- **Despliegue:** el proyecto hermano `../ododex-sitio` compila esta web con las variables de producción, copia `out/` bajo `/es/multas` junto a las demás secciones y lo sube a Cloudflare Pages. También genera en la raíz de `ododex.com` el `robots.txt` (con `Sitemap: https://ododex.com/es/multas/sitemap.xml`) y el `ads.txt`, que solo valen en la raíz del dominio. Ver su README.
 - **Search Console:** dar de alta el dominio `ododex.com` y enviar `https://ododex.com/es/multas/sitemap.xml`.
 
 ---
