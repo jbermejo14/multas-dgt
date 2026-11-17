@@ -33,7 +33,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           return (
-            <React.Fragment key={item.url}>
+            <React.Fragment key={`${index}-${item.url}`}>
               {index > 0 && <span className="sep">/</span>}
               {isLast ? (
                 <span className="current" aria-current="page">

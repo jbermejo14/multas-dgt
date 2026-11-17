@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Scripts de Node sueltos (CommonJS) fuera del código de la web.
+    "scripts/**",
+    "postcss-tailwind-windows.cjs",
   ]),
 ]);
 

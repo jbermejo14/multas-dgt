@@ -11,7 +11,7 @@ import {
   getRoadOptions,
   type RadarMapFilters,
 } from "@/lib/radarMapFilters";
-import { RADAR_MAP_TYPE_COLORS } from "@/lib/radarMapMarkers";
+import { RADAR_MAP_MARKER_BORDER, RADAR_MAP_TYPE_COLORS } from "@/lib/radarMapMarkers";
 import {
   RADAR_MAP_RADAR_ZOOM,
   RADAR_MAP_SPAIN_CENTER,
@@ -113,8 +113,8 @@ export function RadarMap({ onSelectRadarLimit }: RadarMapProps) {
               {RADAR_MAP_LEGEND.map((item) => (
                 <li key={item.tipo} className="flex items-center gap-2">
                   <span
-                    className="inline-block h-3 w-3 rounded-full border border-white"
-                    style={{ backgroundColor: RADAR_MAP_TYPE_COLORS[item.tipo] }}
+                    className="inline-block h-3 w-3 rounded-full border"
+                    style={{ backgroundColor: RADAR_MAP_TYPE_COLORS[item.tipo], borderColor: RADAR_MAP_MARKER_BORDER }}
                   />
                   <span>{item.label}</span>
                 </li>

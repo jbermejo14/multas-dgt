@@ -69,3 +69,16 @@ for (const [themeName, tokens] of Object.entries(THEMES)) {
 test('contraste: blanco sobre #C2410C', () => {
   assert.ok(uiContrast(WHITE, ON_ACCENT_BACKGROUND) >= MIN_TEXT_CONTRAST);
 });
+
+const STATE_TOKENS = ['--positive', '--negative', '--warning'];
+
+for (const [themeName, tokens] of Object.entries(THEMES)) {
+  test(`contraste: colores de estado sobre fondo y superficies en tema ${themeName}`, () => {
+    for (const state of STATE_TOKENS) {
+      for (const surface of SURFACE_TOKENS) {
+        const ratio = uiContrast(tokens[state], tokens[surface]);
+        assert.ok(ratio >= MIN_TEXT_CONTRAST, `${state} sobre ${surface} en tema ${themeName}: ${ratio.toFixed(2)}`);
+      }
+    }
+  });
+}

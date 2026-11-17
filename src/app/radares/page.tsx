@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getAllProvinces, getAllRadars } from "@/lib/radarsData";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { Navigation, MapPin, ShieldAlert, ExternalLink, ChevronRight, Info } from "lucide-react";
+import { Navigation, ChevronRight, Info } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Radares DGT en España por Provincias y Carreteras",
@@ -33,87 +33,69 @@ export default function RadaresIndexPage() {
   ];
 
   return (
-    <>
-      <main className="min-h-screen bg-neutral-50 dark:bg-[#0D0D0D] py-10 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto space-y-8">
-          <Breadcrumbs items={breadcrumbs} />
+    <main className="main-wrapper space-y-8">
+      <Breadcrumbs items={breadcrumbs} />
 
-          {/* Header */}
-          <header className="p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#141414] shadow-sm space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#ff6b00]/10 text-[#ff6b00] dark:bg-[#ff6b00]/20">
-              <Navigation className="w-3.5 h-3.5" />
-              Datos de la DGT &bull; Punto de Acceso Nacional
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-black text-neutral-900 dark:text-white tracking-tight">
-              Radares DGT en España: Provincias y Carreteras
-            </h1>
-            <p className="text-neutral-600 dark:text-neutral-300 text-sm sm:text-base max-w-3xl leading-relaxed">
-              Catálogo de cinemómetros fijos y de tramo gestionados por la Dirección General de Tráfico
-              en las vías de su competencia (excluidas vías autonómicas transferidas en Cataluña y País Vasco).
-              Localiza cada radar por provincia, vía y punto kilométrico exacto.
-            </p>
-
-            {/* Metrics */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-neutral-200 dark:border-neutral-800">
-              <div className="p-3 rounded-xl bg-neutral-100 dark:bg-neutral-800/60">
-                <span className="text-[11px] uppercase font-bold text-neutral-400 block">Total Radares</span>
-                <span className="text-2xl font-black font-mono text-neutral-900 dark:text-white">{allRadars.length}</span>
-              </div>
-              <div className="p-3 rounded-xl bg-neutral-100 dark:bg-neutral-800/60">
-                <span className="text-[11px] uppercase font-bold text-neutral-400 block">Provincias</span>
-                <span className="text-2xl font-black font-mono text-neutral-900 dark:text-white">{provinces.length}</span>
-              </div>
-              <div className="p-3 rounded-xl bg-neutral-100 dark:bg-neutral-800/60">
-                <span className="text-[11px] uppercase font-bold text-[#ff6b00] block">Radares Fijos</span>
-                <span className="text-2xl font-black font-mono text-[#ff6b00]">{fijoCount}</span>
-              </div>
-              <div className="p-3 rounded-xl bg-neutral-100 dark:bg-neutral-800/60">
-                <span className="text-[11px] uppercase font-bold text-amber-500 block">Radares de Tramo</span>
-                <span className="text-2xl font-black font-mono text-amber-500">{tramoCount}</span>
-              </div>
-            </div>
-
-            {/* Honest Data Source Notice */}
-            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/60 text-xs text-blue-900 dark:text-blue-200">
-              <Info className="w-4 h-4 shrink-0 mt-0.5 text-blue-600 dark:text-blue-400" />
-              <div className="space-y-1">
-                <p>
-                  <strong>Transparencia de datos:</strong> Las ubicaciones y coordenadas proceden del canal DATEX II del
-                  Punto de Acceso Nacional de la DGT (publicación 18/12/2025). El catálogo de la DGT no incluye
-                  los límites de velocidad específicos por cinemómetro en su feed; señalamos la velocidad genérica del
-                  tipo de vía y recomendamos atender siempre a la señalización vertical en el tramo.
-                </p>
-              </div>
-            </div>
-          </header>
-
-          {/* Grid of Provinces */}
-          <section className="space-y-4">
-            <h2 className="text-xl font-black text-neutral-900 dark:text-white">
-              Selecciona una provincia
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {provinces.map((prov) => (
-                <Link
-                  key={prov.slug}
-                  href={`/radares/${prov.slug}`}
-                  className="group p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#141414] hover:border-[#ff6b00]/60 hover:shadow-md transition-all flex items-center justify-between"
-                >
-                  <div>
-                    <h3 className="font-bold text-sm text-neutral-900 dark:text-white group-hover:text-[#ff6b00] transition-colors">
-                      {prov.name}
-                    </h3>
-                    <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                      {prov.totalRadars} radares &bull; {prov.roadsCount} vías
-                    </p>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-neutral-400 group-hover:text-[#ff6b00] group-hover:translate-x-0.5 transition-all" />
-                </Link>
-              ))}
-            </div>
-          </section>
+      <header className="card space-y-4">
+        <div className="tag inline-flex items-center gap-2 text-accent">
+          <Navigation className="h-3.5 w-3.5" aria-hidden="true" />
+          Datos de la DGT &bull; Punto de Acceso Nacional
         </div>
-      </main>
-    </>
+        <h1 className="text-2xl font-extrabold tracking-tight sm:text-4xl">
+          Radares DGT en España: provincias y carreteras
+        </h1>
+        <p className="max-w-3xl text-sm leading-relaxed text-muted sm:text-base">
+          Catálogo de cinemómetros fijos y de tramo gestionados por la Dirección General de Tráfico
+          en las vías de su competencia (excluidas vías autonómicas transferidas en Cataluña y País Vasco).
+          Localiza cada radar por provincia, vía y punto kilométrico exacto.
+        </p>
+
+        <div className="grid grid-cols-2 gap-3 border-t border-line pt-4 sm:grid-cols-4">
+          <div className="rounded-xl border border-line bg-elevated p-3">
+            <span className="block text-[11px] font-bold uppercase text-muted">Total radares</span>
+            <span className="font-mono text-2xl font-bold">{allRadars.length}</span>
+          </div>
+          <div className="rounded-xl border border-line bg-elevated p-3">
+            <span className="block text-[11px] font-bold uppercase text-muted">Provincias</span>
+            <span className="font-mono text-2xl font-bold">{provinces.length}</span>
+          </div>
+          <div className="rounded-xl border border-line bg-elevated p-3">
+            <span className="block text-[11px] font-bold uppercase text-muted">Radares fijos</span>
+            <span className="font-mono text-2xl font-bold text-accent">{fijoCount}</span>
+          </div>
+          <div className="rounded-xl border border-line bg-elevated p-3">
+            <span className="block text-[11px] font-bold uppercase text-muted">Radares de tramo</span>
+            <span className="font-mono text-2xl font-bold text-accent">{tramoCount}</span>
+          </div>
+        </div>
+
+        <div className="flex items-start gap-3 rounded-xl border border-line bg-elevated p-3.5 text-xs text-muted">
+          <Info className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+          <p>
+            <strong className="text-fg">Transparencia de datos:</strong> Las ubicaciones y coordenadas proceden del canal DATEX II del
+            Punto de Acceso Nacional de la DGT (publicación 18/12/2025). El catálogo de la DGT no incluye
+            los límites de velocidad específicos por cinemómetro en su feed; señalamos la velocidad genérica del
+            tipo de vía y recomendamos atender siempre a la señalización vertical en el tramo.
+          </p>
+        </div>
+      </header>
+
+      <section className="space-y-4">
+        <h2 className="text-xl font-extrabold">Selecciona una provincia</h2>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {provinces.map((prov) => (
+            <Link key={prov.slug} href={`/radares/${prov.slug}`} className="link-card">
+              <span>
+                <span className="link-card-name">{prov.name}</span>
+                <span className="link-card-hint">
+                  {prov.totalRadars} radares &bull; {prov.roadsCount} vías
+                </span>
+              </span>
+              <ChevronRight className="link-card-arrow h-4 w-4" aria-hidden="true" />
+            </Link>
+          ))}
+        </div>
+      </section>
+    </main>
   );
 }

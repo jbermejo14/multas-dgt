@@ -57,7 +57,7 @@ export default function CookiesPage() {
           </table>
         </div>
         <p>
-          Los mapas de radares piden las imágenes del mapa a tile.openstreetmap.org. Esas peticiones no instalan cookies; los datos que recibe ese tercero se explican en la política de privacidad.
+          Los mapas de radares piden las imágenes del mapa a tile.openstreetmap.org y, solo si eliges la capa «Satélite», a services.arcgisonline.com (Esri Global Inc.). Esas peticiones no instalan cookies; los datos que recibe ese tercero se explican en la política de privacidad.
         </p>
         <p>
           Más información sobre las cookies de Google en <a href={URL_COOKIES_GOOGLE} target="_blank" rel="noopener noreferrer">policies.google.com</a>.

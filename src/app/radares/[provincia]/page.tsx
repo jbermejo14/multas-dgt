@@ -10,7 +10,7 @@ import {
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { DgtRadarsMap } from "@/components/DgtRadarsMap";
-import { MapPin, Navigation, ChevronRight, Info, ExternalLink } from "lucide-react";
+import { MapPin, ChevronRight } from "lucide-react";
 
 interface PageProps {
   params: Promise<{ provincia: string }>;
@@ -68,140 +68,105 @@ export default async function RadaresProvinciaPage({ params }: PageProps) {
   ];
 
   return (
-    <>
-      <main className="min-h-screen bg-neutral-50 dark:bg-[#0D0D0D] py-10 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto space-y-8">
-          <Breadcrumbs items={breadcrumbs} />
+    <main className="main-wrapper space-y-8">
+      <Breadcrumbs items={breadcrumbs} />
 
-          {/* Header */}
-          <header className="p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#141414] shadow-sm space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#ff6b00]/10 text-[#ff6b00] dark:bg-[#ff6b00]/20">
-              <MapPin className="w-3.5 h-3.5" />
-              Provincia de {province.name}
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-black text-neutral-900 dark:text-white tracking-tight">
-              Radares DGT en {province.name}
-            </h1>
-            <p className="text-neutral-600 dark:text-neutral-300 text-sm sm:text-base max-w-3xl leading-relaxed">
-              Catálogo de cinemómetros fijos y de tramo activos de la Dirección General de Tráfico
-              en carreteras de {province.name}. Consulta el punto kilométrico (PK), sentido de circulación y
-              localización en el mapa interactivo.
-            </p>
+      <header className="card space-y-4">
+        <div className="tag inline-flex items-center gap-2 text-accent">
+          <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
+          Provincia de {province.name}
+        </div>
+        <h1 className="text-2xl font-extrabold tracking-tight sm:text-4xl">Radares DGT en {province.name}</h1>
+        <p className="max-w-3xl text-sm leading-relaxed text-muted sm:text-base">
+          Catálogo de cinemómetros fijos y de tramo activos de la Dirección General de Tráfico
+          en carreteras de {province.name}. Consulta el punto kilométrico (PK), sentido de circulación y
+          localización en el mapa interactivo.
+        </p>
 
-            {/* Metrics */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-neutral-200 dark:border-neutral-800">
-              <div className="p-3 rounded-xl bg-neutral-100 dark:bg-neutral-800/60">
-                <span className="text-[11px] uppercase font-bold text-neutral-400 block">Total Radares</span>
-                <span className="text-2xl font-black font-mono text-neutral-900 dark:text-white">{radars.length}</span>
-              </div>
-              <div className="p-3 rounded-xl bg-neutral-100 dark:bg-neutral-800/60">
-                <span className="text-[11px] uppercase font-bold text-neutral-400 block">Carreteras</span>
-                <span className="text-2xl font-black font-mono text-neutral-900 dark:text-white">{roads.length}</span>
-              </div>
-              <div className="p-3 rounded-xl bg-neutral-100 dark:bg-neutral-800/60">
-                <span className="text-[11px] uppercase font-bold text-[#ff6b00] block">Radares Fijos</span>
-                <span className="text-2xl font-black font-mono text-[#ff6b00]">{fijos}</span>
-              </div>
-              <div className="p-3 rounded-xl bg-neutral-100 dark:bg-neutral-800/60">
-                <span className="text-[11px] uppercase font-bold text-amber-500 block">Radares de Tramo</span>
-                <span className="text-2xl font-black font-mono text-amber-500">{tramos}</span>
-              </div>
-            </div>
-          </header>
+        <div className="grid grid-cols-2 gap-3 border-t border-line pt-4 sm:grid-cols-4">
+          <div className="stat-tile">
+            <span className="stat-label">Total radares</span>
+            <span className="stat-value">{radars.length}</span>
+          </div>
+          <div className="stat-tile">
+            <span className="stat-label">Carreteras</span>
+            <span className="stat-value">{roads.length}</span>
+          </div>
+          <div className="stat-tile">
+            <span className="stat-label">Radares fijos</span>
+            <span className="stat-value text-accent">{fijos}</span>
+          </div>
+          <div className="stat-tile">
+            <span className="stat-label">Radares de tramo</span>
+            <span className="stat-value text-accent">{tramos}</span>
+          </div>
+        </div>
+      </header>
 
-          {/* Interactive Map */}
-          <section className="space-y-3">
-            <h2 className="text-xl font-black text-neutral-900 dark:text-white">
-              Mapa de radares en {province.name}
-            </h2>
-            <DgtRadarsMap radars={radars} className="h-[400px] w-full rounded-2xl" />
-          </section>
+      <section className="space-y-3">
+        <h2 className="text-xl font-extrabold">Mapa de radares en {province.name}</h2>
+        <DgtRadarsMap radars={radars} className="h-[400px] w-full rounded-2xl" />
+      </section>
 
-          {/* Highways and roads filter */}
-          <section className="space-y-4">
-            <h2 className="text-xl font-black text-neutral-900 dark:text-white">
-              Carreteras con cinemómetros en {province.name}
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5">
-              {roads.map((road) => (
-                <Link
-                  key={road.slug}
-                  href={`/radares/${province.slug}/${road.slug}`}
-                  className="group p-3 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#141414] hover:border-[#ff6b00]/60 transition-all flex flex-col justify-between"
-                >
-                  <span className="font-extrabold text-sm text-neutral-900 dark:text-white group-hover:text-[#ff6b00] transition-colors">
-                    {road.name}
-                  </span>
-                  <span className="text-[11px] text-neutral-400 mt-1">
-                    {road.totalRadars} {road.totalRadars === 1 ? "radar" : "radares"}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </section>
+      <section className="space-y-4">
+        <h2 className="text-xl font-extrabold">Carreteras con cinemómetros en {province.name}</h2>
+        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+          {roads.map((road) => (
+            <Link
+              key={road.slug}
+              href={`/radares/${province.slug}/${road.slug}`}
+              className="link-card link-card-stack"
+            >
+              <span className="link-card-name">{road.name}</span>
+              <span className="link-card-hint">
+                {road.totalRadars} {road.totalRadars === 1 ? "radar" : "radares"}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
-          {/* Complete radar table / card list */}
-          <section className="space-y-4">
-            <h2 className="text-xl font-black text-neutral-900 dark:text-white">
-              Listado completo de cinemómetros en {province.name}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {radars.map((radar) => (
-                <div
-                  key={radar.id}
-                  className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#141414] shadow-sm flex flex-col justify-between space-y-3"
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono font-black text-base text-neutral-900 dark:text-white">
-                          {radar.carretera}
-                        </span>
-                        <span className="font-mono text-xs px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300">
-                          PK {radar.pk}
-                        </span>
-                      </div>
-                      <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-                        Sentido: <strong className="text-neutral-700 dark:text-neutral-200">{radar.sentido}</strong> &bull; {radar.singularity}
-                      </div>
-                    </div>
-                    <span
-                      className={`text-[11px] font-bold px-2 py-0.5 rounded-full shrink-0 ${
-                        radar.tipo === "Tramo"
-                          ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20"
-                          : "bg-[#ff6b00]/10 text-[#ff6b00] border border-[#ff6b00]/20"
-                      }`}
-                    >
-                      {radar.tipo}
-                    </span>
+      <section className="space-y-4">
+        <h2 className="text-xl font-extrabold">Listado completo de cinemómetros en {province.name}</h2>
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          {radars.map((radar) => (
+            <div key={radar.id} className="card card-compact flex flex-col justify-between space-y-3">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-mono text-base font-bold">{radar.carretera}</span>
+                    <span className="tag font-mono">PK {radar.pk}</span>
                   </div>
-
-                  <div className="pt-2 border-t border-neutral-100 dark:border-neutral-800/80 flex items-center justify-between text-xs">
-                    <span className="text-[11px] text-neutral-400 font-mono">
-                      {radar.lat.toFixed(4)}, {radar.lng.toFixed(4)}
-                    </span>
-                    <Link
-                      href={`/radares/radar/${radar.id}`}
-                      className="font-bold text-[#ff6b00] hover:underline inline-flex items-center gap-1"
-                    >
-                      <span>Ver ficha</span>
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    </Link>
+                  <div className="mt-1 text-xs text-muted">
+                    Sentido: <strong className="text-fg">{radar.sentido}</strong> &bull; {radar.singularity}
                   </div>
                 </div>
-              ))}
-            </div>
-          </section>
+                <span className={`tag shrink-0 ${radar.tipo === "Fijo" ? "tag-accent" : ""}`}>{radar.tipo}</span>
+              </div>
 
-          {/* DGT NAP citation footer */}
-          <footer className="p-4 rounded-xl bg-neutral-100 dark:bg-neutral-900 text-xs text-neutral-500 dark:text-neutral-400 flex items-center justify-between flex-wrap gap-2">
-            <span>Fuente oficial: DGT Punto de Acceso Nacional (publicado {radars[0]?.fechaPublicacion || "2025-12-18"})</span>
-            <Link href="/radares" className="text-[#ff6b00] hover:underline">
-              &larr; Volver a todas las provincias
-            </Link>
-          </footer>
+              <div className="flex items-center justify-between border-t border-line pt-2 text-xs">
+                <span className="font-mono text-[11px] text-muted">
+                  {radar.lat.toFixed(4)}, {radar.lng.toFixed(4)}
+                </span>
+                <Link
+                  href={`/radares/radar/${radar.id}`}
+                  className="inline-flex min-h-11 items-center gap-1 font-bold text-accent hover:underline"
+                >
+                  <span>Ver ficha</span>
+                  <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
-      </main>
-    </>
+      </section>
+
+      <footer className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-line bg-elevated p-4 text-xs text-muted">
+        <span>Fuente oficial: DGT Punto de Acceso Nacional (publicado {radars[0]?.fechaPublicacion || "2025-12-18"})</span>
+        <Link href="/radares" className="inline-flex min-h-11 items-center text-accent hover:underline">
+          &larr; Volver a todas las provincias
+        </Link>
+      </footer>
+    </main>
   );
 }

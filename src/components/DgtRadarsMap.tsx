@@ -1,8 +1,19 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef } from "react";
+import type { Map as LeafletMap } from "leaflet";
 import { DgtRadar } from "@/lib/radarsData";
+import { escapeHtml, RADAR_MAP_MARKER_BORDER, RADAR_MAP_TYPE_COLORS } from "@/lib/radarMapMarkers";
 import "leaflet/dist/leaflet.css";
+
+const DGT_MAP_DEFAULT_CENTER: [number, number] = [40.4168, -3.7038];
+const DGT_MAP_FIT_PADDING: [number, number] = [30, 30];
+const DGT_MAP_FIT_MAX_ZOOM = 14;
+const DGT_MAP_HIGHLIGHT_COLOR = "#e11d48";
+const DGT_MAP_HIGHLIGHT_HALO = "rgba(225, 29, 72, 0.4)";
+const DGT_MAP_MARKER_TEXT_COLOR = "#ffffff";
+const DGT_MAP_TILES_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+const DGT_MAP_MAX_ZOOM = 19;
 
 interface DgtRadarsMapProps {
   radars: DgtRadar[];
@@ -10,6 +21,46 @@ interface DgtRadarsMapProps {
   initialZoom?: number;
   highlightId?: string;
   className?: string;
+}
+
+function dgtMapAverageCenter(radars: DgtRadar[]): [number, number] {
+  if (radars.length === 0) return DGT_MAP_DEFAULT_CENTER;
+  const latitude = radars.reduce((sum, radar) => sum + radar.lat, 0) / radars.length;
+  const longitude = radars.reduce((sum, radar) => sum + radar.lng, 0) / radars.length;
+  return [latitude, longitude];
+}
+
+function dgtMapMarkerHtml(radar: DgtRadar, isHighlighted: boolean): string {
+  const background = isHighlighted ? DGT_MAP_HIGHLIGHT_COLOR : RADAR_MAP_TYPE_COLORS[radar.tipo];
+  const halo = isHighlighted
+    ? `<div style="position: absolute; width: 36px; height: 36px; border-radius: 50%; background: ${DGT_MAP_HIGHLIGHT_HALO};"></div>`
+    : "";
+  return `
+    <div style="position: relative; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+      ${halo}
+      <div style="width: 26px; height: 26px; border-radius: 50%; background: ${background}; border: 2px solid ${RADAR_MAP_MARKER_BORDER}; display: flex; align-items: center; justify-content: center; color: ${DGT_MAP_MARKER_TEXT_COLOR}; font-weight: 800; font-size: 10px; font-family: monospace;">
+        ${radar.tipo === "Tramo" ? "TR" : "RAD"}
+      </div>
+    </div>
+  `;
+}
+
+function dgtMapPopupHtml(radar: DgtRadar): string {
+  const limit = radar.velocidadEstimada
+    ? `<div><strong>Límite genérico vía:</strong> ${radar.velocidadEstimada} km/h</div>`
+    : "";
+  return `
+    <div style="font-family: inherit; font-size: 12px; line-height: 1.4; color: var(--text-primary); min-width: 180px; padding: 0.5rem 0.75rem;">
+      <div style="font-weight: 800; font-size: 13px; color: var(--accent-primary); margin-bottom: 3px;">
+        ${escapeHtml(radar.carretera)} &bull; PK ${escapeHtml(radar.pk)}
+      </div>
+      <div><strong>Tipo:</strong> Radar de ${radar.tipo}</div>
+      <div><strong>Sentido:</strong> ${escapeHtml(radar.sentido)}</div>
+      <div><strong>Provincia:</strong> ${escapeHtml(radar.provincia)}</div>
+      ${limit}
+      <div style="margin-top: 4px; font-size: 10px; color: var(--text-muted);">Fuente oficial: DGT NAP</div>
+    </div>
+  `;
 }
 
 export function DgtRadarsMap({
@@ -20,141 +71,57 @@ export function DgtRadarsMap({
   className = "h-[450px] w-full rounded-2xl",
 }: DgtRadarsMapProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<any>(null);
-  const markersLayerRef = useRef<any>(null);
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
+    let isCancelled = false;
+    let map: LeafletMap | null = null;
 
-  const initMap = useCallback(async () => {
-    if (!mapContainerRef.current || mapInstanceRef.current) return;
+    async function buildMap() {
+      const L = (await import("leaflet")).default;
+      if (isCancelled || !mapContainerRef.current) return;
 
-    const L = (await import("leaflet")).default;
-
-    // Calculate default center if not provided
-    let centerLat = initialCenter ? initialCenter[0] : 40.4168;
-    let centerLng = initialCenter ? initialCenter[1] : -3.7038;
-
-    if (!initialCenter && radars.length > 0) {
-      const avgLat = radars.reduce((sum, r) => sum + r.lat, 0) / radars.length;
-      const avgLng = radars.reduce((sum, r) => sum + r.lng, 0) / radars.length;
-      centerLat = avgLat;
-      centerLng = avgLng;
-    }
-
-    const map = L.map(mapContainerRef.current, {
-      center: [centerLat, centerLng],
-      zoom: initialZoom,
-      scrollWheelZoom: true,
-    });
-
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 19,
-    }).addTo(map);
-
-    const markersGroup = L.layerGroup().addTo(map);
-    markersLayerRef.current = markersGroup;
-    mapInstanceRef.current = map;
-
-    // Add markers
-    const bounds = L.latLngBounds([]);
-
-    radars.forEach((radar) => {
-      const isTramo = radar.tipo === "Tramo";
-      const isHighlighted = highlightId === radar.id;
-
-      const markerBg = isHighlighted
-        ? "#e11d48"
-        : isTramo
-        ? "#ea580c"
-        : "#ff6b00";
-
-      const markerHtml = `
-        <div style="position: relative; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-          ${
-            isHighlighted
-              ? '<div style="position: absolute; width: 36px; height: 36px; border-radius: 50%; background: rgba(225, 29, 72, 0.4); animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>'
-              : ""
-          }
-          <div style="width: 26px; height: 26px; border-radius: 50%; background: ${markerBg}; border: 2px solid #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; color: #ffffff; font-weight: 800; font-size: 10px; font-family: monospace;">
-            ${isTramo ? "TR" : "RAD"}
-          </div>
-        </div>
-      `;
-
-      const customIcon = L.divIcon({
-        html: markerHtml,
-        className: "custom-dgt-marker",
-        iconSize: [32, 32],
-        iconAnchor: [16, 16],
-        popupAnchor: [0, -16],
+      map = L.map(mapContainerRef.current, {
+        center: initialCenter ?? dgtMapAverageCenter(radars),
+        zoom: initialZoom,
+        scrollWheelZoom: true,
       });
+      L.tileLayer(DGT_MAP_TILES_URL, {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: DGT_MAP_MAX_ZOOM,
+      }).addTo(map);
 
-      const marker = L.marker([radar.lat, radar.lng], { icon: customIcon });
-
-      const popupHtml = `
-        <div style="font-family: inherit; font-size: 12px; line-height: 1.4; color: #171717; min-width: 180px;">
-          <div style="font-weight: 800; font-size: 13px; color: #ff6b00; margin-bottom: 3px;">
-            ${radar.carretera} &bull; PK ${radar.pk}
-          </div>
-          <div><strong>Tipo:</strong> Radar de ${radar.tipo}</div>
-          <div><strong>Sentido:</strong> ${radar.sentido}</div>
-          <div><strong>Provincia:</strong> ${radar.provincia}</div>
-          ${
-            radar.velocidadEstimada
-              ? `<div><strong>Límite genérico vía:</strong> ${radar.velocidadEstimada} km/h</div>`
-              : ""
-          }
-          <div style="margin-top: 4px; font-size: 10px; color: #737373;">
-            Fuente oficial: DGT NAP
-          </div>
-        </div>
-      `;
-
-      marker.bindPopup(popupHtml);
-      markersGroup.addLayer(marker);
-      bounds.extend([radar.lat, radar.lng]);
-
-      if (isHighlighted) {
-        marker.openPopup();
+      const bounds = L.latLngBounds([]);
+      for (const radar of radars) {
+        const isHighlighted = highlightId === radar.id;
+        const icon = L.divIcon({
+          html: dgtMapMarkerHtml(radar, isHighlighted),
+          className: "custom-dgt-marker",
+          iconSize: [32, 32],
+          iconAnchor: [16, 16],
+          popupAnchor: [0, -16],
+        });
+        const marker = L.marker([radar.lat, radar.lng], { icon }).bindPopup(dgtMapPopupHtml(radar));
+        marker.addTo(map);
+        bounds.extend([radar.lat, radar.lng]);
+        if (isHighlighted) marker.openPopup();
       }
-    });
 
-    if (radars.length > 1 && bounds.isValid()) {
-      map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
+      if (radars.length > 1 && bounds.isValid()) {
+        map.fitBounds(bounds, { padding: DGT_MAP_FIT_PADDING, maxZoom: DGT_MAP_FIT_MAX_ZOOM });
+      }
     }
+
+    void buildMap();
+    return () => {
+      isCancelled = true;
+      map?.remove();
+    };
   }, [radars, initialCenter, initialZoom, highlightId]);
 
-  useEffect(() => {
-    if (isClient) {
-      initMap();
-    }
-    return () => {
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove();
-        mapInstanceRef.current = null;
-      }
-    };
-  }, [isClient, initMap]);
-
-  if (!isClient) {
-    return (
-      <div
-        className={`${className} bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 flex items-center justify-center`}
-      >
-        <span className="text-sm text-neutral-400">Cargando mapa interactivo...</span>
-      </div>
-    );
-  }
-
   return (
-    <div
-      ref={mapContainerRef}
-      className={`${className} border border-neutral-200 dark:border-neutral-800 overflow-hidden shadow-inner z-0`}
-    />
+    <div className="isolate">
+      <div ref={mapContainerRef} className={`${className} overflow-hidden border border-line bg-elevated`} />
+    </div>
   );
 }

@@ -12,10 +12,6 @@ const SOURCE_DIRECTORY = 'src';
 const OLD_BRAND_PATTERN = /RadarPuntos|radarpuntos/;
 const SECTION_LINKS = ['/#calculadora', '/#infracciones', '/radares', '/#faq'];
 
-// SpeedCalculator.tsx conserva la marca antigua hasta que el módulo de estilo (2.6) lo reescriba.
-// Vaciar esta lista entonces.
-const PENDING_BRAND_CLEANUP = ['SpeedCalculator.tsx'];
-
 function brandListFiles(directory: string): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
     const fullPath = path.join(directory, entry.name);
@@ -30,7 +26,6 @@ test('marca: SITE_NAME es Ododex y la sección es Multas y radares', () => {
 
 test('marca: ningún fichero de src menciona RadarPuntos', () => {
   const offenders = brandListFiles(path.join(process.cwd(), SOURCE_DIRECTORY))
-    .filter(file => !PENDING_BRAND_CLEANUP.includes(path.basename(file)))
     .filter(file => OLD_BRAND_PATTERN.test(readFileSync(file, 'utf-8')));
   assert.deepEqual(offenders, []);
 });

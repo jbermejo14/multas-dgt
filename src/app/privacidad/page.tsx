@@ -41,6 +41,9 @@ export default function PrivacidadPage() {
             Mapas de radares: para dibujar el mapa, tu navegador pide imágenes (teselas) a tile.openstreetmap.org, servicio de la Fundación OpenStreetMap. Ese tercero recibe tu dirección IP y los datos técnicos de la petición. No instala cookies. La base jurídica es el interés legítimo de mostrar el mapa.
           </li>
           <li>
+            Capa «Satélite» del mapa: solo si eliges esa capa, tu navegador pide las imágenes a services.arcgisonline.com, servicio de Esri Global Inc. Ese tercero recibe tu dirección IP y los datos técnicos de la petición. No instala cookies. La base jurídica es el interés legítimo de mostrar el mapa.
+          </li>
+          <li>
             Correo electrónico: si nos escribes, usamos tu mensaje y tu dirección para responderte. La base jurídica es el interés legítimo o tu solicitud.
           </li>
           <li>
