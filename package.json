@@ -2,12 +2,13 @@
   "name": "multas-dgt",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --experimental-strip-types --test test/**/*.test.mjs"
+    "test": "node --import tsx --test \"test/**/*.test.mjs\" \"test/**/*.test.ts\" \"test/**/*.test.tsx\""
   },
   "dependencies": {
     "@types/leaflet": "^1.9.22",
@@ -25,6 +26,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
     "tailwindcss": "4.3.3",
+    "tsx": "4.19.3",
     "typescript": "^5"
   },
   "optionalDependencies": {
