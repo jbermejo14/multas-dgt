@@ -18,10 +18,6 @@ interface RadarMapToolbarProps {
 
 const RADAR_MAP_BUTTON_CLASS =
   "rounded border border-line bg-elevated px-2.5 py-1 text-xs font-semibold text-muted hover:text-fg";
-const RADAR_MAP_ACTIVE_LAYER_STYLE = {
-  backgroundColor: "var(--on-accent-bg)",
-  color: "var(--on-accent-text)",
-};
 
 /** Barra sobre el mapa: accesos regionales, selector de capa base y vista inicial. */
 export function RadarMapToolbar({ activeLayer, onSelectLayer, onFocusRegion, onResetView }: RadarMapToolbarProps) {
@@ -52,8 +48,7 @@ export function RadarMapToolbar({ activeLayer, onSelectLayer, onFocusRegion, onR
                 onClick={() => onSelectLayer(layer)}
                 title={RADAR_MAP_TILE_SOURCES[layer].title}
                 aria-pressed={isActive}
-                style={isActive ? RADAR_MAP_ACTIVE_LAYER_STYLE : undefined}
-                className="rounded px-2 py-0.5 text-[11px] font-semibold text-muted"
+                className="toggle-btn rounded px-2 py-0.5 text-[11px] font-semibold"
               >
                 {RADAR_MAP_TILE_SOURCES[layer].label}
               </button>

@@ -72,7 +72,7 @@ export default async function RadaresProvinciaPage({ params }: PageProps) {
       <Breadcrumbs items={breadcrumbs} />
 
       <header className="card space-y-4">
-        <div className="tag inline-flex items-center gap-2 text-accent">
+        <div className="tag inline-flex items-center gap-2 whitespace-normal text-accent">
           <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
           Provincia de {province.name}
         </div>

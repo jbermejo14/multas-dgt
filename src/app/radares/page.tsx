@@ -37,7 +37,7 @@ export default function RadaresIndexPage() {
       <Breadcrumbs items={breadcrumbs} />
 
       <header className="card space-y-4">
-        <div className="tag inline-flex items-center gap-2 text-accent">
+        <div className="tag inline-flex items-center gap-2 whitespace-normal text-accent">
           <Navigation className="h-3.5 w-3.5" aria-hidden="true" />
           Datos de la DGT &bull; Punto de Acceso Nacional
         </div>

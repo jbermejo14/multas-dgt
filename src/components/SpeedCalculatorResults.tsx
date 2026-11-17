@@ -3,7 +3,7 @@ import { CheckCircle2, Info, ShieldAlert } from "lucide-react";
 import type { SpeedCalculationResult } from "@/data/speedFineTable";
 import { infractionSeverityTagClass } from "@/components/InfractionsDirectorySeverity";
 
-const URBAN_LIMIT_MAX = 50;
+import { URBAN_LIMIT_MAX } from "@/lib/speedLimits";
 
 interface SpeedCalculatorResultsProps {
   result: SpeedCalculationResult;

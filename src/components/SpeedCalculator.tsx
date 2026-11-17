@@ -9,6 +9,7 @@ import {
 } from "@/data/speedFineTable";
 import { SpeedCalculatorResults } from "@/components/SpeedCalculatorResults";
 import { SITE_NAME } from "@/lib/site";
+import { URBAN_LIMIT_MAX } from "@/lib/speedLimits";
 import { Gauge, Copy, Check, TrendingDown } from "lucide-react";
 
 const DEFAULT_SPEED = 138;
@@ -17,7 +18,6 @@ const MIN_SLIDER_MAX = 220;
 const SLIDER_MARGIN_OVER_LIMIT = 90;
 const MAX_INPUT_SPEED = 280;
 const MIN_INPUT_SPEED = 10;
-const URBAN_LIMIT_MAX = 50;
 const COPIED_FEEDBACK_MS = 2500;
 
 type MarginType = "fijo" | "movil";
@@ -131,7 +131,7 @@ export function SpeedCalculator({ initialLimit = 120 }: SpeedCalculatorProps) {
     <div className="card space-y-8">
       <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <div className="tag mb-2 inline-flex items-center gap-2 text-accent">
+          <div className="tag mb-2 inline-flex items-center gap-2 whitespace-normal text-accent">
             <Gauge className="h-3.5 w-3.5" aria-hidden="true" />
             Baremo Ley de Seguridad Vial (RDL 6/2015)
           </div>

@@ -214,7 +214,7 @@ export default async function InfractionDetailPage({ params }: PageProps) {
             <div className={`rounded-xl border p-4 ${infraction.puntos > 0 ? "border-accent bg-accent-soft" : "border-line bg-bg"}`}>
               <span className="text-[11px] font-bold uppercase tracking-wider text-muted">Pérdida de puntos</span>
               <div className={`mt-1 font-mono text-3xl font-bold ${infraction.puntos > 0 ? "text-accent" : ""}`}>
-                {infraction.puntos > 0 ? `-${infraction.puntos}` : "0"} {infraction.puntos === 1 ? "Punto" : "Puntos"}
+                {infraction.puntos > 0 ? `-${infraction.puntos}` : "0"} {infraction.puntos === 1 ? "punto" : "puntos"}
               </div>
               <span className="text-[11px] text-muted">del carnet de conducir</span>
             </div>

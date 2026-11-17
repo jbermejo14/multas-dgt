@@ -85,7 +85,7 @@ export default async function RadaresCarreteraPage({ params }: PageProps) {
 
       <header className="card space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="tag inline-flex items-center gap-2 text-accent">
+          <div className="tag inline-flex items-center gap-2 whitespace-normal text-accent">
             <Navigation className="h-3.5 w-3.5" aria-hidden="true" />
             Vía {roadName} &bull; {province.name}
           </div>
@@ -98,7 +98,7 @@ export default async function RadaresCarreteraPage({ params }: PageProps) {
           </Link>
         </div>
 
-        <h1 className="font-mono text-2xl font-bold tracking-tight sm:text-4xl">
+        <h1 className="text-2xl font-bold tracking-tight sm:text-4xl">
           Radares DGT en {roadName} ({province.name})
         </h1>
         <p className="max-w-3xl text-sm leading-relaxed text-muted sm:text-base">

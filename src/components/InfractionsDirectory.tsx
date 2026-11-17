@@ -100,7 +100,7 @@ export function InfractionsDirectory() {
     <div className="w-full space-y-6">
       <div className="card">
         <div className="max-w-3xl">
-          <div className="tag mb-2 inline-flex items-center gap-2 text-accent">
+          <div className="tag mb-2 inline-flex items-center gap-2 whitespace-normal text-accent">
             <FileText className="h-3.5 w-3.5" aria-hidden="true" />
             Catálogo Ley de Seguridad Vial
           </div>

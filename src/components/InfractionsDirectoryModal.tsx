@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import { InfractionData } from "@/types";
 import { X, ExternalLink } from "lucide-react";
@@ -19,21 +19,65 @@ function InfractionsDirectorySection({ title, children }: { title: string; child
   );
 }
 
+const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+/** Lleva el foco al botón indicado al abrir y lo devuelve a quien abrió la ventana al cerrar. */
+function useInfractionsModalFocus(initialFocusRef: React.RefObject<HTMLButtonElement | null>) {
+  useEffect(() => {
+    const opener = document.activeElement;
+    initialFocusRef.current?.focus();
+    return () => {
+      if (opener instanceof HTMLElement) opener.focus();
+    };
+  }, [initialFocusRef]);
+}
+
+/** Mantiene Tab y Mayús+Tab dentro del diálogo, saltando entre el primer y el último enfocable. */
+function infractionsModalTrapTab(event: React.KeyboardEvent<HTMLElement>, dialog: HTMLElement | null) {
+  const focusables = dialog?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
+  if (!focusables || focusables.length === 0) return;
+  const first = focusables[0];
+  const last = focusables[focusables.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
 /** Ventana con el detalle completo de una infracción: sanción, base legal, recuperación de puntos y recurso. */
 export function InfractionsDirectoryModal({ infraction, onClose }: InfractionsDirectoryModalProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  useInfractionsModalFocus(closeButtonRef);
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === "Escape") {
+      event.stopPropagation();
+      onClose();
+    } else if (event.key === "Tab") {
+      infractionsModalTrapTab(event, dialogRef.current);
+    }
+  };
+
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-infraction-title"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 sm:p-6"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-[var(--overlay)] p-4 sm:p-6"
       onClick={onClose}
+      onKeyDown={handleKeyDown}
     >
       <div
+        ref={dialogRef}
         className="card relative max-h-[90vh] w-full max-w-2xl space-y-6 overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <button
+          ref={closeButtonRef}
           type="button"
           onClick={onClose}
           className="btn btn-secondary btn-icon absolute right-3 top-3"

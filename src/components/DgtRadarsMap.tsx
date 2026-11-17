@@ -47,14 +47,14 @@ function dgtMapMarkerHtml(radar: DgtRadar, isHighlighted: boolean): string {
 
 function dgtMapPopupHtml(radar: DgtRadar): string {
   const limit = radar.velocidadEstimada
-    ? `<div><strong>Límite genérico vía:</strong> ${radar.velocidadEstimada} km/h</div>`
+    ? `<div><strong>Límite genérico vía:</strong> ${escapeHtml(String(radar.velocidadEstimada))} km/h</div>`
     : "";
   return `
     <div style="font-family: inherit; font-size: 12px; line-height: 1.4; color: var(--text-primary); min-width: 180px; padding: 0.5rem 0.75rem;">
       <div style="font-weight: 800; font-size: 13px; color: var(--accent-primary); margin-bottom: 3px;">
         ${escapeHtml(radar.carretera)} &bull; PK ${escapeHtml(radar.pk)}
       </div>
-      <div><strong>Tipo:</strong> Radar de ${radar.tipo}</div>
+      <div><strong>Tipo:</strong> Radar de ${escapeHtml(radar.tipo)}</div>
       <div><strong>Sentido:</strong> ${escapeHtml(radar.sentido)}</div>
       <div><strong>Provincia:</strong> ${escapeHtml(radar.provincia)}</div>
       ${limit}

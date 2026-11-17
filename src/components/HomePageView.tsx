@@ -31,7 +31,7 @@ export function HomePageView() {
       <JsonLd />
 
       <section aria-labelledby="home-title" className="space-y-4">
-        <div className="tag inline-flex items-center gap-2 text-accent">
+        <div className="tag inline-flex items-center gap-2 whitespace-normal text-accent">
           <Radio className="h-3.5 w-3.5" aria-hidden="true" />
           <span>Consultor informativo de multas, puntos y radares en España</span>
         </div>
@@ -54,7 +54,7 @@ export function HomePageView() {
         </ul>
 
         <div className="flex flex-wrap gap-3 pt-2">
-          <a href="#calculadora" className="btn bg-[var(--on-accent-bg)] text-[var(--on-accent-text)]">
+          <a href="#calculadora" className="btn btn-primary">
             <Gauge className="h-4 w-4" aria-hidden="true" />
             <span>Calculadora de velocidad</span>
           </a>
