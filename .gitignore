@@ -42,3 +42,6 @@ next-env.d.ts
 
 # muestra XML del NAP usada al construir el dataset de radares
 scripts/sample.xml
+
+# datos personales del titular (ver config/titular.example.json)
+/config/titular.json
