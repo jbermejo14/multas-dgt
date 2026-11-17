@@ -3,10 +3,8 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { INFRACTIONS_DATA } from "@/data/infractions";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { AdPlaceholder } from "@/components/AdPlaceholder";
-import { getCanonicalUrl, getSiteUrl } from "@/lib/siteConfig";
+import type { InfractionData } from "@/types";
+import { absoluteUrl, SITE_NAME } from "@/lib/site";
 import {
   ShieldAlert,
   Coins,
@@ -24,6 +22,16 @@ import {
   ExternalLink,
   ShieldCheck,
 } from "lucide-react";
+
+/** Título de la ficha: "Multa por <título en minúscula inicial>: <importe> € y <puntos> puntos". La marca la añade la plantilla del layout. */
+function infractionSeoTitle(infraction: InfractionData): string {
+  const lowerCaseTitle = infraction.titulo.charAt(0).toLowerCase() + infraction.titulo.slice(1);
+  const consequence =
+    infraction.puntos > 0
+      ? `${infraction.importe} € y ${infraction.puntos} ${infraction.puntos === 1 ? "punto" : "puntos"}`
+      : `${infraction.importe} €, sin pérdida de puntos`;
+  return `Multa por ${lowerCaseTitle}: ${consequence}`;
+}
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -46,8 +54,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const canonicalUrl = getCanonicalUrl(`/multas/${infraction.slug}`);
-  const title = `Multa por ${infraction.titulo} (${infraction.importe}€ y -${infraction.puntos} puntos)`;
+  const canonicalUrl = absoluteUrl(`/multas/${infraction.slug}`);
+  const title = infractionSeoTitle(infraction);
   const description = `Importe legal de ${infraction.importe}€ (${infraction.prontoPago}€ con 50% de pronto pago), detracción de ${infraction.puntos} puntos, plazos de alegaciones y normativa ${infraction.articulo}.`;
 
   return {
@@ -70,7 +78,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       type: "article",
       locale: "es_ES",
       url: canonicalUrl,
-      siteName: "RadarPuntos",
+      siteName: SITE_NAME,
     },
     twitter: {
       card: "summary_large_image",
@@ -88,8 +96,8 @@ export default async function InfractionDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const canonicalUrl = getCanonicalUrl(`/multas/${infraction.slug}`);
-  const siteUrl = getSiteUrl();
+  const canonicalUrl = absoluteUrl(`/multas/${infraction.slug}`);
+  const homeUrl = absoluteUrl("/");
 
   // Infracciones relacionadas
   const relatedInfractions = INFRACTIONS_DATA.filter(
@@ -111,13 +119,13 @@ export default async function InfractionDetailPage({ params }: PageProps) {
             "@type": "ListItem",
             "position": 1,
             "name": "Inicio",
-            "item": `${siteUrl}/`,
+            "item": homeUrl,
           },
           {
             "@type": "ListItem",
             "position": 2,
-            "name": "Infracciones de Tráfico",
-            "item": `${siteUrl}/#infracciones`,
+            "name": "Infracciones",
+            "item": homeUrl,
           },
           {
             "@type": "ListItem",
@@ -136,8 +144,8 @@ export default async function InfractionDetailPage({ params }: PageProps) {
         "dateModified": `${infraction.fechaVerificacion}T00:00:00Z`,
         "author": {
           "@type": "Organization",
-          "name": "RadarPuntos",
-          "url": siteUrl,
+          "name": SITE_NAME,
+          "url": homeUrl,
         },
       },
       ...(infraction.faq && infraction.faq.length > 0
@@ -166,7 +174,6 @@ export default async function InfractionDetailPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
       />
 
-      <Navbar />
 
       <main className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         {/* Breadcrumb */}
@@ -294,9 +301,6 @@ export default async function InfractionDetailPage({ params }: PageProps) {
             </div>
           </header>
 
-          {/* Ad Space 1 */}
-          <AdPlaceholder format="banner-horizontal" />
-
           {/* Detailed Content Sections */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8">
@@ -415,8 +419,6 @@ export default async function InfractionDetailPage({ params }: PageProps) {
 
             {/* Sidebar */}
             <aside className="space-y-6">
-              <AdPlaceholder format="rectangle" />
-
               {/* Quick Calculator link */}
               <div className="p-5 rounded-2xl border border-[#ff6b00]/30 bg-[#ff6b00]/10 text-neutral-900 dark:text-white space-y-3">
                 <h4 className="font-black text-sm text-[#ff6b00] uppercase tracking-wider">
@@ -466,12 +468,7 @@ export default async function InfractionDetailPage({ params }: PageProps) {
             </aside>
           </div>
         </article>
-
-        {/* Ad Space 2 */}
-        <AdPlaceholder format="banner-horizontal" className="mt-12" />
       </main>
-
-      <Footer />
     </div>
   );
 }

@@ -1,114 +1,611 @@
-/* Tailwind 4 se procesa por PostCSS (ver postcss.config.mjs). */
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* Tema controlado por data-theme en <html> (lo fija el script de layout.tsx),
+   para que las variantes dark: de Tailwind sigan el mismo atributo. */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
-@layer base {
-  :root {
-    --bg-page: #ffffff;
-    --bg-surface: #f8f9fa;
-    --bg-surface-elevated: #ffffff;
-    --border-color: #e5e7eb;
-    --text-primary: #111111;
-    --text-secondary: #6b7280;
-    --color-orange-primary: #ff6b00;
-  }
+/* ==========================================================================
+   Ododex - Multas y radares
+   Tokens de color por tema (WCAG AA, 4,5:1 en texto). El tema se controla con
+   el atributo data-theme de <html>. Sin atributo se usa el tema claro.
+   ========================================================================== */
 
-  .dark {
-    --bg-page: #0d0d0d;
-    --bg-surface: #171717;
-    --bg-surface-elevated: #202020;
-    --border-color: #262626;
-    --text-primary: #f3f4f6;
-    --text-secondary: #9ca3af;
-    --color-orange-primary: #ff6b00;
-  }
+:root,
+[data-theme="light"] {
+  --bg-body: #ffffff;
+  --bg-surface: #fafafa;
+  --bg-surface-elevated: #f4f4f5;
+  --bg-input: #ffffff;
+  --border-color: #e4e4e7;
+  --border-hover: #d4d4d8;
+  --text-primary: #111111;
+  --text-secondary: #525252;
+  --text-muted: #525252;
+  --accent-primary: #c2410c;
+  --accent-hover: #9a3412;
+  --accent-subtle: #fff7ed;
+  --accent-border: #fdba74;
+  --positive: #15803d;
+  --positive-border: rgba(21, 128, 61, 0.4);
+  --positive-bg: rgba(21, 128, 61, 0.1);
+  --negative: #b91c1c;
+  --negative-border: rgba(185, 28, 28, 0.4);
+  --focus-glow: rgba(194, 65, 12, 0.25);
+  --shadow-sm: 0 1px 3px rgba(17, 17, 17, 0.06);
+}
+
+[data-theme="dark"] {
+  --bg-body: #0a0a0a;
+  --bg-surface: #141414;
+  --bg-surface-elevated: #1c1c1c;
+  --bg-input: #1c1c1c;
+  --border-color: #2a2a2a;
+  --border-hover: #3f3f46;
+  --text-primary: #f5f5f5;
+  --text-secondary: #a3a3a3;
+  --text-muted: #a3a3a3;
+  --accent-primary: #ff6b00;
+  --accent-hover: #ff8533;
+  --accent-subtle: #2a1708;
+  --accent-border: rgba(255, 107, 0, 0.4);
+  --positive: #4ade80;
+  --positive-border: rgba(74, 222, 128, 0.4);
+  --positive-bg: rgba(74, 222, 128, 0.12);
+  --negative: #f87171;
+  --negative-border: rgba(248, 113, 113, 0.4);
+  --focus-glow: rgba(255, 107, 0, 0.3);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Constantes que no cambian con el tema. El texto blanco sobre naranja usa el
+   naranja oscuro en los dos modos: sobre #ff6b00 el blanco no llega a 4,5:1. */
+:root {
+  --on-accent-bg: #c2410c;
+  --on-accent-text: #ffffff;
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Colores semánticos para las utilidades de Tailwind: text-muted, bg-surface... */
+@theme inline {
+  --color-bg: var(--bg-body);
+  --color-surface: var(--bg-surface);
+  --color-elevated: var(--bg-surface-elevated);
+  --color-line: var(--border-color);
+  --color-fg: var(--text-primary);
+  --color-muted: var(--text-muted);
+  --color-accent: var(--accent-primary);
+  --color-accent-soft: var(--accent-subtle);
+}
+
+/* Reset y base */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 body {
-  background-color: var(--bg-page);
+  font-family: var(--font-sans);
+  background-color: var(--bg-body);
   color: var(--text-primary);
+  line-height: 1.5;
   min-height: 100vh;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Custom radar radar-sweep effect */
-@keyframes radar-pulse {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.7);
-  }
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 16px rgba(255, 107, 0, 0);
-  }
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(255, 107, 0, 0);
-  }
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
 }
 
-.animate-radar-pulse {
-  animation: radar-pulse 2s infinite ease-out;
+/* Header */
+.site-header {
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
 
-/* Leaflet Map overrides for custom dark/light integration */
-.leaflet-container {
-  font-family: inherit !important;
-  background-color: #1a1a1a !important;
+.header-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0.375rem 1rem;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 44px;
+  text-decoration: none;
+}
+
+.brand-logo {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
+.brand-logo-dark {
+  display: none;
+}
+
+[data-theme="dark"] .brand-logo-light {
+  display: none;
+}
+
+[data-theme="dark"] .brand-logo-dark {
+  display: block;
+}
+
+.brand-separator {
+  display: none;
+  width: 1px;
+  height: 24px;
+  background-color: var(--border-color);
+}
+
+.brand-section {
+  display: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 44px;
+  height: 44px;
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  user-select: none;
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--accent-primary);
+}
+
+/* El icono y el texto de cada tema se alternan por CSS: así el marcado inicial
+   es idéntico en servidor y cliente y no hace falta estado en React. */
+.theme-when-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.theme-when-dark {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+[data-theme="dark"] .theme-when-light {
+  display: none;
+}
+
+[data-theme="dark"] .theme-when-dark {
+  display: inline-flex;
+}
+
+/* Segunda fila de la cabecera: enlaces a las secciones de la web. */
+.header-nav {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 0.25rem;
+}
+
+.header-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.header-nav a:hover {
+  color: var(--accent-primary);
+}
+
+/* Layout */
+.main-wrapper {
+  max-width: 1240px;
   width: 100%;
-  height: 100%;
-  z-index: 10;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 2.5rem;
+  flex: 1;
 }
 
-.leaflet-popup-content-wrapper {
-  background: #171717 !important;
-  color: #f3f4f6 !important;
-  border: 1px solid #333333 !important;
-  border-radius: 12px !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
-  padding: 0 !important;
-  overflow: hidden !important;
+
+.card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
 }
 
-.leaflet-popup-tip {
-  background: #171717 !important;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  text-decoration: none;
 }
 
-html:not(.dark) .leaflet-popup-content-wrapper {
-  background: #ffffff !important;
-  color: #111111 !important;
-  border: 1px solid #e5e7eb !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15) !important;
+.btn svg {
+  flex-shrink: 0;
 }
 
-html:not(.dark) .leaflet-popup-tip {
-  background: #ffffff !important;
+.btn-secondary {
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
 }
 
-/* Custom slider thumb */
+.btn-secondary:hover {
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+}
+
+.btn-outline {
+  width: 100%;
+  background-color: transparent;
+  border: 1.5px dashed var(--border-hover);
+  color: var(--text-secondary);
+  margin-top: 1.25rem;
+}
+
+.btn-outline:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  background-color: var(--accent-subtle);
+}
+
+/* Footer */
+
+.site-footer {
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-color);
+  padding: 2rem 1rem;
+  margin-top: auto;
+  text-align: center;
+}
+
+.footer-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.footer-text {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.footer-subtext {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1rem;
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
+}
+
+.footer-legal a,
+.footer-link-button {
+  color: var(--text-muted);
+  background: none;
+  border: 0;
+  padding: 0.5rem 0;
+  font: inherit;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.footer-legal a:hover,
+.footer-link-button:hover {
+  color: var(--accent-primary);
+}
+
+.legal-text h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.legal-text h2:first-child {
+  margin-top: 0;
+}
+
+.legal-text p,
+.legal-text li {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--text-primary);
+}
+
+.legal-text p {
+  margin-bottom: 0.75rem;
+}
+
+.legal-text ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.legal-text a {
+  color: var(--accent-primary);
+  text-decoration: underline;
+}
+
+/* Breadcrumbs */
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.breadcrumbs a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.breadcrumbs a:hover {
+  color: var(--accent-primary);
+}
+
+.breadcrumbs .sep {
+  color: var(--text-muted);
+}
+
+.breadcrumbs .current {
+  color: var(--accent-primary);
+  font-weight: 600;
+}
+
+
+/* Tarjetas de enlace */
+.link-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 52px;
+  padding: 0.6rem 1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.link-card:hover,
+.link-card:focus-visible {
+  border-color: var(--accent-primary);
+}
+
+.link-card-name {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.link-card-hint {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.link-card-arrow {
+  color: var(--accent-primary);
+  transition: transform 0.2s ease;
+}
+
+.link-card:hover .link-card-arrow,
+.link-card:focus-visible .link-card-arrow {
+  transform: translateX(2px);
+}
+
+/* Tablas */
+.table-responsive {
+  overflow-x: auto;
+}
+
+.guide-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+.guide-table th, .guide-table td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.guide-table th {
+  background-color: var(--bg-surface-elevated);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.tag-green {
+  border-color: var(--positive-border);
+  color: var(--positive);
+}
+
+.tag-red {
+  border-color: var(--negative-border);
+  color: var(--negative);
+}
+
+
+/* Pantallas medianas y grandes */
+@media (min-width: 768px) {
+  .main-wrapper {
+    padding: 2rem 1.5rem 3.5rem;
+  }
+
+  .header-container {
+    padding: 0.5rem 1.5rem;
+  }
+
+  .header-nav {
+    padding: 0 1.5rem;
+    justify-content: flex-start;
+    gap: 0 1.25rem;
+  }
+
+  .brand-logo {
+    height: 32px;
+  }
+
+  .brand-separator,
+  .brand-section {
+    display: block;
+  }
+
+  .theme-toggle-btn {
+    width: auto;
+    padding: 0 1rem;
+  }
+
+  .card {
+    padding: 2rem;
+  }
+}
+
+/* Mapas de Leaflet. Dentro de @layer base para que las utilidades de Tailwind
+   (h-[400px]...) ganen: sin capa, estas reglas se imponían y el mapa medía 2 px.
+   Por eso .leaflet-container no fija width ni height. Los !important compiten con
+   leaflet.css, que se importa sin capa. */
+@layer base {
+  .leaflet-container {
+    font-family: inherit !important;
+    background-color: var(--bg-surface-elevated) !important;
+    z-index: 10;
+  }
+
+  .leaflet-popup-content-wrapper {
+    background: var(--bg-surface) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-sm) !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .leaflet-popup-tip {
+    background: var(--bg-surface) !important;
+  }
+}
+
+/* Control deslizante de la calculadora */
 input[type="range"]::-webkit-slider-thumb {
   appearance: none;
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #ff6b00;
+  background: var(--accent-primary);
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(255, 107, 0, 0.6);
-  border: 2px solid #ffffff;
-  transition: transform 0.1s ease;
-}
-
-input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.15);
+  border: 2px solid var(--bg-body);
 }
 
 input[type="range"]::-moz-range-thumb {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #ff6b00;
+  background: var(--accent-primary);
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(255, 107, 0, 0.6);
-  border: 2px solid #ffffff;
+  border: 2px solid var(--bg-body);
+}
+
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .site-header, .header-actions, .btn-outline, .btn-secondary {
+    display: none !important;
+  }
+
+  .card {
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
 }

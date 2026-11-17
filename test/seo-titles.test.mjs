@@ -2,10 +2,11 @@ import { test, describe } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 
-const BRAND = "RadarPuntos";
+const BRAND = "Ododex";
 const LAYOUT_PATH = "src/app/layout.tsx";
+const HOME_PATH = "src/app/page.tsx";
 const PAGE_PATHS = [
-  "src/app/page.tsx",
+  HOME_PATH,
   "src/app/multas/[slug]/page.tsx",
   "src/app/radares/page.tsx",
   "src/app/radares/[provincia]/page.tsx",
@@ -30,13 +31,13 @@ describe("Títulos: el nombre del sitio aparece una sola vez", () => {
   const layout = fs.readFileSync(LAYOUT_PATH, "utf-8");
 
   test("El layout aplica la plantilla con la marca", () => {
-    assert.match(layout, new RegExp(`template: "%s \| ${BRAND}"`));
+    assert.match(layout, /template: `%s \| \$\{SITE_NAME\}`/);
   });
 
   for (const pagePath of PAGE_PATHS) {
     test(`${pagePath} no repite la marca dentro de la plantilla`, () => {
       const source = fs.readFileSync(pagePath, "utf-8");
-      const isHome = pagePath === "src/app/page.tsx";
+      const isHome = pagePath === HOME_PATH;
       for (const line of topLevelTitleLines(source)) {
         const usesAbsolute = line.includes("absolute:");
         if (isHome) {
@@ -48,8 +49,11 @@ describe("Títulos: el nombre del sitio aparece una sola vez", () => {
     });
   }
 
-  test("La home usa title.absolute para no recibir la plantilla", () => {
-    const source = fs.readFileSync("src/app/page.tsx", "utf-8");
-    assert.match(source, /absolute:\s*"RadarPuntos/);
+  test("La home usa title.absolute con el título y la marca", () => {
+    const source = fs.readFileSync(HOME_PATH, "utf-8");
+    assert.match(
+      source,
+      /absolute:\s*"Calculadora de multas de tráfico, puntos y radares DGT \| Ododex"/
+    );
   });
 });

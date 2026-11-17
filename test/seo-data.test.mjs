@@ -1,18 +1,22 @@
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import path from "node:path";
+import { getSiteUrl, absoluteUrl } from "@/lib/site";
+import sitemap from "@/app/sitemap";
+import { generateMetadata as generateInfractionMetadata } from "@/app/multas/[slug]/page";
+import { INFRACTIONS_DATA } from "@/data/infractions";
 
 const radarsRaw = JSON.parse(fs.readFileSync("src/data/dgt-radars.json", "utf-8"));
-const siteConfigRaw = fs.readFileSync("src/lib/siteConfig.ts", "utf-8");
 
 describe("SEO Técnico y Configuración Canónica", () => {
-  test("Dominio base por defecto es https://radarpuntos.es", () => {
-    assert.match(
-      siteConfigRaw,
-      /https:\/\/radarpuntos\.es/,
-      "El dominio base por defecto debe ser https://radarpuntos.es"
-    );
+  test("Dominio base por defecto es http://localhost:3000 sin variable de entorno", () => {
+    const previous = process.env.NEXT_PUBLIC_SITE_URL;
+    delete process.env.NEXT_PUBLIC_SITE_URL;
+    try {
+      assert.equal(getSiteUrl(), "http://localhost:3000");
+    } finally {
+      if (previous !== undefined) process.env.NEXT_PUBLIC_SITE_URL = previous;
+    }
   });
 
   test("Los slugs de todas las provincias son URL-safe y sin acentos", () => {
@@ -53,15 +57,34 @@ describe("SEO Técnico y Configuración Canónica", () => {
     }
   });
 
-  test("Sitemap XML incluye todas las páginas (Home, Infracciones, Provincias, Carreteras y Radares)", () => {
-    const provRoadPairs = new Set(
-      radarsRaw.map((r) => `${r.provinciaSlug}/${r.carreteraSlug}`)
-    );
-    const totalExpectedUrls = 1 + 1 + 28 + 43 + provRoadPairs.size + radarsRaw.length;
+  test("Sitemap incluye home, radares, provincias, carreteras e infracciones, y no las fichas de radar", () => {
+    const urls = sitemap().map((entry) => entry.url);
+    const provRoadPairs = new Set(radarsRaw.map((r) => `${r.provinciaSlug}/${r.carreteraSlug}`));
+    const expectedUrls = 2 + INFRACTIONS_DATA.length + 43 + provRoadPairs.size;
 
-    assert.ok(
-      totalExpectedUrls > 1100,
-      `Se esperaba un sitemap con > 1100 URLs, calculadas: ${totalExpectedUrls}`
-    );
+    assert.equal(urls.length, expectedUrls);
+    assert.ok(urls.includes(absoluteUrl("/")));
+    assert.ok(urls.includes(absoluteUrl("/radares")));
+    assert.ok(urls.every((url) => !url.includes("/radares/radar/")), "El sitemap no debe contener fichas de radar");
+    assert.ok(urls.every((url) => !/\/(aviso-legal|privacidad|cookies)$/.test(url)), "El sitemap no debe contener páginas legales");
+  });
+
+  test("Los títulos de multas empiezan por 'Multa por ' seguido de minúscula", async () => {
+    for (const infraction of INFRACTIONS_DATA) {
+      const metadata = await generateInfractionMetadata({ params: Promise.resolve({ slug: infraction.slug }) });
+      assert.match(metadata.title, /^Multa por [a-záéíóúñ]/, `Título inválido: ${metadata.title}`);
+      assert.ok(metadata.title.includes(`${infraction.importe} €`), `Falta el importe: ${metadata.title}`);
+    }
+  });
+
+  // La página importa el mapa (CSS de Leaflet), que Node no carga: se comprueba el código fuente.
+  test("Las fichas de radar llevan noindex, follow", () => {
+    const source = fs.readFileSync("src/app/radares/radar/[id]/page.tsx", "utf-8");
+    assert.match(source, /robots:\s*\{\s*index:\s*false,\s*follow:\s*true\s*\}/);
+  });
+
+  test("La home tiene como canonical absoluteUrl('/')", () => {
+    const source = fs.readFileSync("src/app/page.tsx", "utf-8");
+    assert.match(source, /canonical:\s*absoluteUrl\("\/"\)/);
   });
 });

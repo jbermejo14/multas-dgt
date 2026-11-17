@@ -1,14 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { SpeedCalculator } from "@/components/SpeedCalculator";
 import { InfractionsDirectory } from "@/components/InfractionsDirectory";
 import { RadarMap } from "@/components/RadarMap";
 import { FaqSection } from "@/components/FaqSection";
 import { JsonLd } from "@/components/JsonLd";
-import { AdPlaceholder } from "@/components/AdPlaceholder";
 import { RoadSpeedLimit } from "@/types";
 import {
   Gauge,
@@ -23,12 +20,10 @@ import {
 } from "lucide-react";
 
 export function HomePageView() {
-  const [activeTab, setActiveTab] = useState<string>("calculadora");
   const [calculatorLimit, setCalculatorLimit] = useState<RoadSpeedLimit>(120);
 
   const handleSelectRadarLimit = (limit: RoadSpeedLimit) => {
     setCalculatorLimit(limit);
-    setActiveTab("calculadora");
     const calc = document.getElementById("calculadora");
     if (calc) {
       calc.scrollIntoView({ behavior: "smooth" });
@@ -38,7 +33,6 @@ export function HomePageView() {
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-[#0D0D0D] text-neutral-900 dark:text-neutral-100 transition-colors">
       <JsonLd />
-      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-8 pb-12 md:pt-14 md:pb-16 border-b border-neutral-200 dark:border-neutral-800/80 bg-gradient-to-b from-neutral-50 via-white to-white dark:from-[#111111] dark:via-[#0D0D0D] dark:to-[#0D0D0D]">
@@ -84,7 +78,6 @@ export function HomePageView() {
           <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
             <a
               href="#calculadora"
-              onClick={() => setActiveTab("calculadora")}
               className="flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-extrabold text-white bg-[#ff6b00] hover:bg-[#e05e00] shadow-lg shadow-[#ff6b00]/30 transition-all hover:scale-[1.02]"
             >
               <Gauge className="w-4 h-4" />
@@ -92,7 +85,6 @@ export function HomePageView() {
             </a>
             <a
               href="#infracciones"
-              onClick={() => setActiveTab("infracciones")}
               className="flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-bold text-neutral-800 dark:text-neutral-200 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition-colors"
             >
               <ShieldAlert className="w-4 h-4 text-[#ff6b00]" />
@@ -100,7 +92,6 @@ export function HomePageView() {
             </a>
             <a
               href="#radares"
-              onClick={() => setActiveTab("radares")}
               className="flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-bold text-neutral-800 dark:text-neutral-200 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition-colors"
             >
               <MapPin className="w-4 h-4 text-[#ff6b00]" />
@@ -112,38 +103,24 @@ export function HomePageView() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full space-y-16">
-        {/* Top Ad Space */}
-        <AdPlaceholder format="banner-horizontal" />
-
         {/* SECCIÓN A: CALCULADORA DE MULTAS POR EXCESO DE VELOCIDAD */}
-        <section id="calculadora" aria-label="Calculadora de multas de velocidad" className="scroll-mt-24">
+        <section id="calculadora" aria-label="Calculadora de multas de velocidad" className="scroll-mt-28">
           <SpeedCalculator key={calculatorLimit} initialLimit={calculatorLimit} />
         </section>
 
-        {/* Ad Space below calculator */}
-        <AdPlaceholder format="banner-horizontal" />
-
         {/* SECCIÓN B: BUSCADOR DE INFRACCIONES Y PÉRDIDA DE PUNTOS */}
-        <section id="infracciones" aria-label="Buscador de infracciones y pérdida de puntos" className="scroll-mt-24">
+        <section id="infracciones" aria-label="Buscador de infracciones y pérdida de puntos" className="scroll-mt-28">
           <InfractionsDirectory />
         </section>
 
-        {/* Middle In-feed Ad Space */}
-        <AdPlaceholder format="in-feed" />
-
         {/* SECCIÓN C: BUSCADOR Y MAPA DE RADARES EN ESPAÑA */}
-        <section id="radares" aria-label="Mapa de radares de tráfico en España" className="scroll-mt-24">
+        <section id="radares" aria-label="Mapa de radares de tráfico en España" className="scroll-mt-28">
           <RadarMap onSelectRadarLimit={handleSelectRadarLimit} />
         </section>
-
-        {/* Ad Space before FAQ */}
-        <AdPlaceholder format="banner-horizontal" />
 
         {/* SECCIÓN D: PREGUNTAS FRECUENTES (FAQ) */}
         <FaqSection />
       </main>
-
-      <Footer />
     </div>
   );
 }

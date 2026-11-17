@@ -7,8 +7,8 @@ import {
   getRadarsByProvince,
   getRoadsByProvince,
 } from "@/lib/radarsData";
-import { getCanonicalUrl } from "@/lib/siteConfig";
-import { JsonLd } from "@/components/JsonLd";
+import { absoluteUrl, SITE_NAME } from "@/lib/site";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { DgtRadarsMap } from "@/components/DgtRadarsMap";
 import { MapPin, Navigation, ChevronRight, Info, ExternalLink } from "lucide-react";
 
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const canonicalUrl = getCanonicalUrl(`/radares/${province.slug}`);
+  const canonicalUrl = absoluteUrl(`/radares/${province.slug}`);
   return {
     title: `Radares DGT en ${province.name}: Ubicación, Carreteras y PK`,
     description: `Consulta la ubicación de los ${province.totalRadars} radares fijos y de tramo de la DGT en la provincia de ${province.name}. Puntos kilométricos y vías.`,
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: `Radares DGT en ${province.name} | RadarPuntos`,
+      title: `Radares DGT en ${province.name} | ${SITE_NAME}`,
       description: `Ubicación de cinemómetros en ${province.name} en ${province.roadsCount} carreteras.`,
       url: canonicalUrl,
     },
@@ -69,30 +69,9 @@ export default async function RadaresProvinciaPage({ params }: PageProps) {
 
   return (
     <>
-      <JsonLd breadcrumbs={breadcrumbs} />
-
       <main className="min-h-screen bg-neutral-50 dark:bg-[#0D0D0D] py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto space-y-8">
-          {/* Breadcrumb nav */}
-          <nav aria-label="Migas de pan" className="text-xs text-neutral-500 dark:text-neutral-400">
-            <ol className="flex items-center gap-1.5 flex-wrap">
-              <li>
-                <Link href="/" className="hover:text-[#ff6b00] transition-colors">
-                  Inicio
-                </Link>
-              </li>
-              <li>/</li>
-              <li>
-                <Link href="/radares" className="hover:text-[#ff6b00] transition-colors">
-                  Radares
-                </Link>
-              </li>
-              <li>/</li>
-              <li className="font-semibold text-neutral-800 dark:text-neutral-200" aria-current="page">
-                {province.name}
-              </li>
-            </ol>
-          </nav>
+          <Breadcrumbs items={breadcrumbs} />
 
           {/* Header */}
           <header className="p-6 sm:p-8 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#141414] shadow-sm space-y-4">

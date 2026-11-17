@@ -1,71 +1,27 @@
 import React from "react";
 import { HOME_FAQS } from "@/data/faqs";
-import { getSiteUrl, getCanonicalUrl } from "@/lib/siteConfig";
+import { absoluteUrl, SITE_NAME } from "@/lib/site";
 
-export interface BreadcrumbItem {
-  name: string;
-  url: string;
-}
+/** Datos estructurados de la home: sitio web, aplicación y preguntas frecuentes visibles. */
+export function JsonLd() {
+  const homeUrl = absoluteUrl("/");
 
-export interface FaqItem {
-  question: string;
-  answer: string;
-}
-
-interface JsonLdProps {
-  breadcrumbs?: BreadcrumbItem[];
-  faqs?: FaqItem[];
-}
-
-export function JsonLd({ breadcrumbs, faqs }: JsonLdProps = {}) {
-  const siteUrl = getSiteUrl();
-
-  const graph: any[] = [];
-
-  // If breadcrumbs are provided, emit BreadcrumbList
-  if (breadcrumbs && breadcrumbs.length > 0) {
-    graph.push({
-      "@type": "BreadcrumbList",
-      "itemListElement": breadcrumbs.map((crumb, idx) => ({
-        "@type": "ListItem",
-        "position": idx + 1,
-        "name": crumb.name,
-        "item": crumb.url.startsWith("http") ? crumb.url : getCanonicalUrl(crumb.url),
-      })),
-    });
-  }
-
-  // If page-specific FAQs are provided, emit FAQPage (only where visible on page)
-  if (faqs && faqs.length > 0) {
-    graph.push({
-      "@type": "FAQPage",
-      "mainEntity": faqs.map((f) => ({
-        "@type": "Question",
-        "name": f.question,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": f.answer,
-        },
-      })),
-    });
-  }
-
-  // Default Home schema when neither custom breadcrumbs nor custom FAQs are passed
-  if (!breadcrumbs && !faqs) {
-    graph.push(
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@graph": [
       {
         "@type": "WebSite",
-        "@id": `${siteUrl}/#website`,
-        "url": `${siteUrl}/`,
-        "name": "RadarPuntos",
+        "@id": `${homeUrl}#website`,
+        "url": homeUrl,
+        "name": SITE_NAME,
         "description": "Consultor de multas de tráfico, baremo de puntos y mapa de cinemómetros en España.",
         "inLanguage": "es-ES",
       },
       {
         "@type": "WebApplication",
-        "@id": `${siteUrl}/#webapp`,
-        "name": "Calculadora de Multas y Puntos RadarPuntos",
-        "url": `${siteUrl}/`,
+        "@id": `${homeUrl}#webapp`,
+        "name": `Calculadora de multas y puntos ${SITE_NAME}`,
+        "url": homeUrl,
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "All",
         "offers": {
@@ -77,7 +33,7 @@ export function JsonLd({ breadcrumbs, faqs }: JsonLdProps = {}) {
       },
       {
         "@type": "FAQPage",
-        "@id": `${siteUrl}/#faq`,
+        "@id": `${homeUrl}#faq`,
         "mainEntity": HOME_FAQS.map((item) => ({
           "@type": "Question",
           "name": item.question,
@@ -86,13 +42,8 @@ export function JsonLd({ breadcrumbs, faqs }: JsonLdProps = {}) {
             "text": item.answer,
           },
         })),
-      }
-    );
-  }
-
-  const schemaData = {
-    "@context": "https://schema.org",
-    "@graph": graph,
+      },
+    ],
   };
 
   return (

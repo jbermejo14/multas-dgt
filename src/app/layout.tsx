@@ -1,28 +1,54 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { getSiteUrl } from "@/lib/siteConfig";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { AdSenseScript, getAdSenseClient } from "@/components/AdSenseScript";
+import { getSiteUrl, SITE_NAME } from "@/lib/site";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
+  weight: ["500", "700"],
+  variable: "--font-jetbrains",
+  display: "swap",
 });
 
-const siteUrl = getSiteUrl();
+/**
+ * Fija el tema antes de pintar para evitar el parpadeo: primero la elección guardada
+ * y, si no hay, la preferencia del sistema. El try/catch cubre un localStorage no disponible.
+ */
+const THEME_SCRIPT = `
+  (function() {
+    var theme = null;
+    try {
+      var saved = localStorage.getItem('ododex-theme');
+      if (saved === 'light' || saved === 'dark') theme = saved;
+      if (!theme) {
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        theme = prefersDark ? 'dark' : 'light';
+      }
+    } catch (e) {
+      theme = 'light';
+    }
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+`;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(getSiteUrl()),
   title: {
-    default: "RadarPuntos | Consultor de Multas, Puntos y Mapa de Radares en España",
-    template: "%s | RadarPuntos",
+    default: "Multas de tráfico, puntos y radares DGT",
+    template: `%s | ${SITE_NAME}`,
   },
   description:
-    "Herramienta informativa ciudadana con calculadora de multas de tráfico por velocidad (Orden ICT/155/2020), baremo de puntos de la Ley de Seguridad Vial, catálogo de infracciones y mapa de radares.",
+    "Herramienta informativa con calculadora de multas de tráfico por velocidad (Orden ICT/155/2020), baremo de puntos de la Ley de Seguridad Vial, catálogo de infracciones y mapa de radares.",
   keywords: [
     "multas trafico España",
     "calculadora multas velocidad",
@@ -33,41 +59,25 @@ export const metadata: Metadata = {
     "delito exceso de velocidad art 379",
     "multas DGT 2026",
   ],
-  authors: [{ name: "RadarPuntos" }],
-  creator: "RadarPuntos",
-  publisher: "RadarPuntos",
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
   openGraph: {
-    title: "RadarPuntos | Consultor de Multas, Puntos y Mapa de Radares",
-    description:
-      "Calcula el importe de multas por velocidad con márgenes metrológicos, consulta la pérdida de puntos y ubica cinemómetros en España.",
-    url: siteUrl,
-    siteName: "RadarPuntos",
+    siteName: SITE_NAME,
     locale: "es_ES",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "RadarPuntos | Consultor de Multas y Mapa de Radares",
-    description:
-      "Herramienta ciudadana gratuita para calcular sanciones de tráfico, puntos retirados y red de cinemómetros.",
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  // Sin `robots` global: indexar es el valor por defecto, y un `index, follow` aquí
+  // se sumaría al `noindex` que Next pone en la página 404.
 };
 
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0d0d0d" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -79,26 +89,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="es" suppressHydrationWarning className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <head>
-        {/* Anti-FOUC theme script */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                var savedTheme = localStorage.getItem('radarpuntos_theme');
-                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-                  document.documentElement.classList.add('dark');
-                } else {
-                  document.documentElement.classList.remove('dark');
-                }
-              } catch (e) {}
-            `,
-          }}
-        />
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body>
+        <Header />
+        {children}
+        <Footer mostrarConsentimiento={getAdSenseClient() !== null} />
+        <AdSenseScript />
+      </body>
     </html>
   );
 }
