@@ -3,6 +3,9 @@ import { INFRACTIONS_DATA } from "@/data/infractions";
 import { getAllProvinces, getAllRadars } from "@/lib/radarsData";
 import { absoluteUrl } from "@/lib/site";
 
+// Con `output: "export"` el sitemap debe declararse estático para generarse en el build.
+export const dynamic = "force-static";
+
 const STATIC_PAGES: ReadonlyArray<{ path: string; priority: number }> = [
   { path: "/", priority: 1.0 },
   { path: "/radares", priority: 0.9 },

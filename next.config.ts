@@ -5,10 +5,12 @@ import type { NextConfig } from "next";
 // importaciones TypeScript sin extensión.
 const BASE_PATH = "/es/multas";
 
+// Exportación estática: el sitio se publica como ficheros en Cloudflare Pages (ver ../ododex-sitio).
+// cacheComponents y partialPrefetching se quitaron porque son incompatibles con la
+// configuración `dynamic` que exige el sitemap al exportar, y sin servidor no aportan nada.
 const nextConfig: NextConfig = {
   basePath: BASE_PATH,
-  cacheComponents: true,
-  partialPrefetching: true,
+  output: "export",
 };
 
 export default nextConfig;
