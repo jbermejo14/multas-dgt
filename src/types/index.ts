@@ -59,25 +59,6 @@ export interface InfractionData {
   }[];
 }
 
-export type RadarType = "Fijo" | "Tramo" | "Semáforo";
-
-export interface RadarData {
-  id: string;
-  provincia: string;
-  carretera: string;
-  pk: string;
-  sentido: "Creciente" | "Decreciente" | "Ambos sentidos";
-  tipo: RadarType;
-  velocidad_limite: RoadSpeedLimit;
-  lat: number;
-  lng: number;
-  ubicacion: string;
-  camaraFoto?: boolean;
-  esTopMultas?: boolean;
-  rankingMasMultas?: number;
-  multasAnualesAprox?: number;
-}
-
 export interface FAQItem {
   question: string;
   answer: string;
