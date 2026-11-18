@@ -24,7 +24,7 @@ El diseño de módulos y las decisiones están en [`ARCHITECTURE.md`](ARCHITECTU
    - `/radares/radar/<id>`: ficha de cada radar. Lleva `noindex, follow` y no está en el sitemap, porque las 737 fichas son casi iguales y Google las trataría como contenido escaso.
    - El mapa de la home muestra los 737 radares con filtros por provincia, carretera y tipo.
 4. **Páginas legales**: `/aviso-legal`, `/privacidad` y `/cookies`, con `noindex`.
-5. **Publicidad**: anuncios automáticos de Google AdSense con su mensaje de consentimiento (TCF v2.2). No hay bloques de anuncio colocados a mano.
+5. **Publicidad**: Google AdSense con su mensaje de consentimiento (TCF v2.2) y bloques manuales `AdSlot` (1 a 3 por página, nunca en legales ni en la 404), según la sección 8 de `../ododex-sitio/ARCHITECTURE.md`.
 
 ---
 
