@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { INFRACTIONS_DATA } from "@/data/infractions";
 import type { InfractionData } from "@/types";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
+import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { infractionSeverityTagClass } from "@/components/InfractionsDirectorySeverity";
 import {
@@ -221,6 +222,8 @@ export default async function InfractionDetailPage({ params }: PageProps) {
           </div>
         </header>
 
+        <AdSlot />
+
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div className="space-y-8 lg:col-span-2">
             <section className="space-y-4">
@@ -351,6 +354,8 @@ export default async function InfractionDetailPage({ params }: PageProps) {
             </div>
           </aside>
         </div>
+
+        <AdSlot />
       </article>
     </main>
   );

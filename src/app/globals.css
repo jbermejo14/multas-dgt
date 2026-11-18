@@ -266,6 +266,33 @@ body {
 
 
 @layer components {
+/* Hueco de anuncio manual: reserva altura para que el anuncio no desplace el contenido. */
+.ad-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 100%;
+  max-width: 100%;
+  min-height: 280px;
+  overflow: hidden;
+  padding: 0.5rem 1rem 1rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.ad-slot-label {
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+  .ad-slot {
+    min-height: 250px;
+  }
+}
+
 .card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);

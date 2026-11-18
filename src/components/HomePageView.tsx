@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { AdSlot } from "@/components/AdSlot";
 import { SpeedCalculator } from "@/components/SpeedCalculator";
 import { InfractionsDirectory } from "@/components/InfractionsDirectory";
 import { RadarMap } from "@/components/RadarMap";
@@ -73,15 +74,21 @@ export function HomePageView() {
         <SpeedCalculator key={calculatorLimit} initialLimit={calculatorLimit} />
       </section>
 
+      <AdSlot />
+
       <section id="infracciones" aria-label="Buscador de infracciones y pérdida de puntos" className="scroll-mt-28">
         <InfractionsDirectory />
       </section>
+
+      <AdSlot />
 
       <section id="radares" aria-label="Mapa de radares de tráfico en España" className="scroll-mt-28">
         <RadarMap onSelectRadarLimit={handleSelectRadarLimit} />
       </section>
 
       <FaqSection />
+
+      <AdSlot />
     </main>
   );
 }

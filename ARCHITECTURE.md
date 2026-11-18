@@ -169,3 +169,22 @@ Tras cada módulo, la sesión principal borra los ficheros que han quedado sin u
 - 375 y 1280 px, tema claro y oscuro, sin desbordamiento horizontal.
 - La ficha de radar lleva `noindex`; el sitemap no la contiene.
 - La 404 está en español y tiene un solo `robots` (`noindex`).
+
+## 5. Anuncios
+
+Bloques manuales de AdSense (especificación común: sección 8 de `ododex-sitio/ARCHITECTURE.md`).
+
+- Componente `src/components/AdSlot.tsx` (cliente): `AdSlot({ className? })`. No renderiza nada sin cliente válido (`NEXT_PUBLIC_ADSENSE_CLIENT`, validado con `getAdSenseClient`) y unidad de 10 dígitos (`NEXT_PUBLIC_ADSENSE_SLOT`). Muestra "Publicidad" y un `<ins class="adsbygoogle">`; hace un solo `push` por instancia.
+- Estilo: clase `.ad-slot` en `@layer components` de `globals.css` (tokens, `min-height` 280 px y 250 px desde `md`, `overflow: hidden`).
+- Máximo 3 por página. Sin anuncios en `/aviso-legal`, `/privacidad`, `/cookies` ni en la 404.
+
+| Página | Huecos |
+|---|---|
+| `/` (`HomePageView`) | 1) tras la calculadora; 2) entre el catálogo de infracciones y el mapa de radares; 3) tras las preguntas frecuentes, antes del pie |
+| `/multas/[slug]` | 1) tras la ficha principal (cabecera con importes), antes del contenido; 2) al final del artículo |
+| `/radares` | 1) tras la lista de provincias (único: la lista es el contenido principal y está al final) |
+| `/radares/[provincia]` | 1) tras el mapa; 2) tras el listado completo, antes del pie de página |
+| `/radares/[provincia]/[carretera]` | 1) tras el mapa; 2) al final, tras el bloque de la calculadora |
+| `/radares/radar/[id]` | 1) tras el mapa; 2) tras el bloque de límites, antes del pie |
+
+Pruebas: `test/ad-slot.test.tsx`.

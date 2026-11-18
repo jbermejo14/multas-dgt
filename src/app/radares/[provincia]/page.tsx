@@ -8,6 +8,7 @@ import {
   getRoadsByProvince,
 } from "@/lib/radarsData";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
+import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { DgtRadarsMap } from "@/components/DgtRadarsMap";
 import { MapPin, ChevronRight } from "lucide-react";
@@ -108,6 +109,8 @@ export default async function RadaresProvinciaPage({ params }: PageProps) {
         <DgtRadarsMap radars={radars} className="h-[400px] w-full rounded-2xl" />
       </section>
 
+      <AdSlot />
+
       <section className="space-y-4">
         <h2 className="text-xl font-extrabold">Carreteras con cinemómetros en {province.name}</h2>
         <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
@@ -160,6 +163,8 @@ export default async function RadaresProvinciaPage({ params }: PageProps) {
           ))}
         </div>
       </section>
+
+      <AdSlot />
 
       <footer className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-line bg-elevated p-4 text-xs text-muted">
         <span>Fuente oficial: DGT Punto de Acceso Nacional (publicado {radars[0]?.fechaPublicacion || "2025-12-18"})</span>

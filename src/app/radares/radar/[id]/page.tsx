@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllRadars, getRadarById } from "@/lib/radarsData";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
+import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { DgtRadarsMap } from "@/components/DgtRadarsMap";
 import { Gauge, ExternalLink, ArrowLeft, ShieldAlert } from "lucide-react";
@@ -127,6 +128,8 @@ export default async function RadarDetallePage({ params }: PageProps) {
         />
       </section>
 
+      <AdSlot />
+
       <section className="card space-y-4">
         <h2 className="flex items-center gap-2 text-lg font-bold">
           <ShieldAlert className="h-5 w-5 text-accent" aria-hidden="true" />
@@ -164,6 +167,8 @@ export default async function RadarDetallePage({ params }: PageProps) {
           </a>
         </div>
       </section>
+
+      <AdSlot />
 
       <footer className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-line bg-elevated p-4 text-xs text-muted">
         <span>Fuente oficial: DGT Punto de Acceso Nacional (Publicado: {radar.fechaPublicacion})</span>

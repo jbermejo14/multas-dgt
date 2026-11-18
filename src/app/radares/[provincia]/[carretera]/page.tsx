@@ -8,6 +8,7 @@ import {
   getProvinceBySlug,
 } from "@/lib/radarsData";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
+import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { DgtRadarsMap } from "@/components/DgtRadarsMap";
 import { Navigation, ChevronRight, Gauge, ArrowLeft } from "lucide-react";
@@ -127,6 +128,8 @@ export default async function RadaresCarreteraPage({ params }: PageProps) {
         <DgtRadarsMap radars={radars} className="h-[400px] w-full rounded-2xl" />
       </section>
 
+      <AdSlot />
+
       <section className="space-y-4">
         <h2 className="text-xl font-extrabold">Puntos kilométricos y cinemómetros en la {roadName}</h2>
         <div className="space-y-3">
@@ -165,6 +168,8 @@ export default async function RadaresCarreteraPage({ params }: PageProps) {
           <span>Abrir calculadora</span>
         </Link>
       </div>
+
+      <AdSlot />
     </main>
   );
 }

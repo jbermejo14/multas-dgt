@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { getAllProvinces, getAllRadars } from "@/lib/radarsData";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
+import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Navigation, ChevronRight, Info } from "lucide-react";
 
@@ -96,6 +97,8 @@ export default function RadaresIndexPage() {
           ))}
         </div>
       </section>
+
+      <AdSlot />
     </main>
   );
 }
